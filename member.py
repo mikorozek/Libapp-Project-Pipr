@@ -96,6 +96,22 @@ class Member:
         self.current_renting_list.append(renting)
         self.renting_history.append(renting)
 
+    def make_reservation(self, book):
+        """
+        Method that makes reservation. It adds book to member's current
+        reservation list. It also adds member's login to book reservation list.
+        """
+        self.current_reservation_list.append(book)
+        book.current_reservations.append(self.login)
+
+    def cancel_reservation(self, book):
+        """
+        Method that cancels reservation. It removes user login from
+        book reservation list.
+        """
+        self.current_reservation_list.remove(book)
+        book.current_reservations.remove(self.login)
+
     def return_a_book(self, renting):
         """
         When book is returned to library it removes renting from current
@@ -104,11 +120,3 @@ class Member:
         renting.return_renting()
         renting.book.change_status()
         self.current_renting_list.remove(renting)
-
-    def make_a_reservation(self, book):
-        """
-        Adds reservation to current reservation list. Updates book reservation
-        info.
-        """
-        self.current_reservation_list.append(book)
-        book.change_reservation()

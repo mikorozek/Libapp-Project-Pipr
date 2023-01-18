@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -12,14 +13,16 @@ class Book:
     :param genre: str, genre of the book
     :param id: str, id of the book
     :param available: bool, info if book is available
-    :param reservation: bool, info if book is booked
+    :param current_reservations: List[str], list
+        that contains logins which first login has the
+        biggest reservation priority
     """
     title: str
     authors: str
     genre: str
     id: str
     available: bool
-    reservation: bool
+    current_reservations: List[str]
 
     @classmethod
     def import_from_json(cls, book_data):
@@ -33,8 +36,9 @@ class Book:
         genre = book_data['Genre']
         id = book_data['Id']
         available = book_data['Available']
-        reservation = book_data['Reservation']
-        return cls(title, authors, genre, id, available, reservation)
+        current_reservations = book_data['Current reservations']
+
+        return cls(title, authors, genre, id, available, current_reservations)
 
     def export_to_json(self):
         """
@@ -48,7 +52,7 @@ class Book:
             'Genre': self.genre,
             'Id': self.id,
             'Available': self.available,
-            'Reservation': self.reservation
+            'Current reservations': self.current_reservations
         }
         return json_book_data
 
@@ -91,14 +95,14 @@ class Book:
         Method that returns information whether book is booked.
         :return: bool
         """
-        return self.reservation
+        return bool(self.current_reservations)
 
-    def change_reservation_status(self):
+    def cancel_reservation(self, user_login):
         """
-        Method that changes book reservation status. If book is booked
-        it becomes not booked and vice versa.
+        Method that cancels reservation. It removes user login from
+        reservation list.
         """
-        self.reservation = not self.reservation
+        self.current_reservations.remove(user_login)
 
     def borrow(self):
         """
