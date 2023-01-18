@@ -6,6 +6,20 @@ from typing import List
 
 @dataclass
 class Member:
+    """
+    Class representing member of library. Class contains attributes
+    that describes information about member.
+    :param name: str, name of member
+    :param surname: str, surname of member
+    :param login: str, member's login
+    :param status: str, information whether member is client or librarian
+    :param current_renting_list: List[Renting], list that contains
+        Renting class instances that are active
+    :param renting_history: List[Renting], list that contains Renting
+        class instances that have ever been made
+    :param current_reservation_list: List[Book], list that contains
+        Reservation class instances that are active
+    """
     name: str
     surname: str
     login: str
@@ -16,6 +30,12 @@ class Member:
 
     @classmethod
     def import_from_json(cls, member_data):
+        """
+        Creates a Renting class instance from JSON data.
+            :param member_data: JSON data that contains information
+                about renting
+            :return: Member class instance
+        """
         name = member_data['Name']
         surname = member_data['Surname']
         login = member_data['Login']
@@ -43,6 +63,11 @@ class Member:
             )
 
     def export_to_json(self):
+        """
+        Creates a dictionary that can be added to JSON file with
+        member information.
+        :return: dic
+        """
         json_member_data = {
             'Name': self.name,
             'Surname': self.surname,
@@ -64,18 +89,26 @@ class Member:
         return json_member_data
 
     def borrow_a_book(self, renting):
+        """
+        When somebody borrows a book. It adds info about book Renting to
+        current renting list and renting history.
+        """
         self.current_renting_list.append(renting)
-        # musi aktualizować plik json zapytać masarczyka w jaki sposób?
         self.renting_history.append(renting)
 
-    def renew_a_book(self, renting):
-        renting.renew()
-
     def return_a_book(self, renting):
+        """
+        When book is returned to library it removes renting from current
+        renting list and updates book status. It also updates renting info.
+        """
         renting.return_renting()
-        renting._book.change_status()
-        self._current_renting_list.remove(renting)
+        renting.book.change_status()
+        self.current_renting_list.remove(renting)
 
     def make_a_reservation(self, book):
-        self._current_reservation_list.append(book)
+        """
+        Adds reservation to current reservation list. Updates book reservation
+        info.
+        """
+        self.current_reservation_list.append(book)
         book.change_reservation()
