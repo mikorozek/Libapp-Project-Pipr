@@ -26,7 +26,7 @@ class LibAppWindow(QMainWindow):
         self.ui.setupUi(self)
         self.library = Library()
         self.ui.Stack.setCurrentWidget(self.ui.home)
-        self.current_user = None
+        self.currentUser = None
         self.setupHomePage()
         self.setupClientHomePage()
         self.setupMainMenuButtons()
@@ -51,12 +51,12 @@ class LibAppWindow(QMainWindow):
         self.login = self.ui.loginLineEdit.text()
         try:
             self.setCurrentUser()
-            if self.current_user.status == 'Client':
+            if self.currentUser.status == 'Client':
                 self.setupCurrentRentingList()
                 self.setupGenreList()
                 self.setGreenBackgroundEffectCalendar()
                 self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
-            elif self.current_user.status == 'Librarian':
+            elif self.currentUser.status == 'Librarian':
                 self.ui.Stack.setCurrentWidget(self.ui.librarian_home_page)
         except ValueError:
             msg = QMessageBox()
@@ -88,10 +88,10 @@ class LibAppWindow(QMainWindow):
         browse the Library books that are currently in the database.
         """
         self.ui.bookBorrowButton.clicked.connect(
-            lambda: self.borrowBook(self.current_book)
+            lambda: self.borrowBook(self.bookSelected)
             )
         self.ui.reservationButton.clicked.connect(
-            lambda: self.reserveBook(self.current_book)
+            lambda: self.reserveBook(self.bookSelected)
             )
 
     def setupClientDisplayRentingsPage(self):
@@ -100,10 +100,10 @@ class LibAppWindow(QMainWindow):
         browse books that he borrowed from library.
         """
         self.ui.returnBookButton.clicked.connect(
-            lambda: self.returnBook(self.current_renting)
+            lambda: self.returnBook(self.rentingSelected)
         )
         self.ui.renewRentingButton.clicked.connect(
-            lambda: self.renewRenting(self.current_renting)
+            lambda: self.renewRenting(self.rentingSelected)
         )
 
     def setupClientRentingHistoryPage(self):
@@ -112,6 +112,7 @@ class LibAppWindow(QMainWindow):
         can click on the calendar date that is highlighted with green colour
         to display info about rentings that have been made that day.
         """
+        self.dateSelected = None
         self.ui.rentingHistoryCalendar.selectionChanged.connect(
             self.chooseDate
             )
@@ -124,10 +125,23 @@ class LibAppWindow(QMainWindow):
         is returned when selected and transforms it into day/monty/year format
         string.
         """
-        self.dateSelected = str(
-            self.ui.rentingHistoryCalendar.selectedDate().toString("dd/MM/yyyy")
-            )
-        self.setupRentingHistoryList()
+        try:
+            self.dateSelected = str(
+                self.ui.rentingHistoryCalendar.selectedDate().toString("dd/MM/yyyy")
+                )
+            if self.dateSelected not in [
+                renting.beginning_date
+                for renting in self.currentUser.renting_history
+            ]:
+                raise ValueError
+            self.setupRentingHistoryList()
+        except ValueError:
+            self.ui.calendarStack.setCurrentIndex(0)
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText("You did not rent anything this day.")
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
 
     def setupRentingHistoryList(self):
         """
@@ -136,27 +150,21 @@ class LibAppWindow(QMainWindow):
         error. If there was renting during clicked day it displays list of
         rentings that had been made that time.
         """
-        try:
-            self.ui.listOfRentingsHistory.clear()
-            rentings = self.current_user.renting_history_date_rentings(
-                self.dateSelected
-                )
-            self.ui.calendarStack.setCurrentIndex(1)
-            self.ui.rentingHistoryStack.setCurrentIndex(0)
-            for renting in rentings:
-                item = QListWidgetItem(str(renting))
-                item.renting = renting
-                self.ui.listOfRentingsHistory.addItem(item)
-            self.ui.listOfRentingsHistory.itemClicked.connect(
-                self.rentingFromHistorySelection
+        if not self.dateSelected:
+            return None
+        self.ui.listOfRentingsHistory.clear()
+        rentings = self.currentUser.renting_history_date_rentings(
+            self.dateSelected
             )
-        except ValueError:
-            self.ui.calendarStack.setCurrentIndex(0)
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText("You did not rent anything this day.")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+        self.ui.calendarStack.setCurrentIndex(1)
+        self.ui.rentingHistoryStack.setCurrentIndex(0)
+        for renting in rentings:
+            item = QListWidgetItem(str(renting))
+            item.renting = renting
+            self.ui.listOfRentingsHistory.addItem(item)
+        self.ui.listOfRentingsHistory.itemClicked.connect(
+            self.rentingFromHistorySelection
+        )
 
     def rentingFromHistorySelection(self, item):
         """
@@ -180,7 +188,11 @@ class LibAppWindow(QMainWindow):
         can browse books that are still borrowed and not returned.
         """
         self.ui.listOfCurrentRentings.clear()
-        rentings = self.current_user.current_renting_list
+        rentings = self.currentUser.current_renting_list
+        if not rentings:
+            self.ui.ifClientHasRentingStack.setCurrentIndex(1)
+            return None
+        self.ui.ifClientHasRentingStack.setCurrentIndex(0)
         self.ui.curRentingStack.setCurrentIndex(0)
         for renting in rentings:
             item = QListWidgetItem(str(renting))
@@ -196,7 +208,7 @@ class LibAppWindow(QMainWindow):
         on the current renting list. It shows info about renting that user
         clicks on.
         """
-        self.current_renting = item.renting
+        self.rentingSelected = item.renting
         self.ui.curRentingStack.setCurrentIndex(1)
         self.ui.rentingBookInfo.setText(
             f"Title: {item.renting.book.title}\n"
@@ -246,7 +258,7 @@ class LibAppWindow(QMainWindow):
         on book list. It then displays info about book that client clicked
         on list.
         """
-        self.current_book = item.book
+        self.bookSelected = item.book
         self.ui.bookStack.setCurrentIndex(1)
         self.ui.bookInfo.setText(
             f"Title: {item.book.title}\n"
@@ -259,17 +271,28 @@ class LibAppWindow(QMainWindow):
 
     def setGreenBackgroundEffectCalendar(self):
         """
-        This method sets up background effect to dates that client made a
+        This method sets up green background effect to dates that client made a
         renting in the past or present.
         """
         self.date_list = list(set([
                 QDate.fromString(renting.beginning_date, "dd/MM/yyyy")
-                for renting in self.current_user.renting_history
+                for renting in self.currentUser.renting_history
                 ]))
         dateFormat = QTextCharFormat()
         dateFormat.setBackground(QBrush(QColor("green")))
         for date in self.date_list:
             self.ui.rentingHistoryCalendar.setDateTextFormat(date, dateFormat)
+
+    def setDefaultBackgroundEffectCalendar(self):
+        """
+        This method sets up default background effect to all dates on
+        QCalendarWidget.
+        """
+        defaultDateFormat = QTextCharFormat()
+        for date in self.date_list:
+            self.ui.rentingHistoryCalendar.setDateTextFormat(
+                date, defaultDateFormat
+                )
 
     def borrowBook(self, book):
         """
@@ -280,7 +303,7 @@ class LibAppWindow(QMainWindow):
         that book has succesfully been borrowed.
         """
         try:
-            self.library.borrow_book(self.current_user, book)
+            self.library.borrow_book(self.currentUser, book)
             msg = QMessageBox()
             msg.setWindowTitle("Done!")
             msg.setText("You succesfully borrowed a book.")
@@ -306,7 +329,7 @@ class LibAppWindow(QMainWindow):
         been made.
         """
         try:
-            self.library.make_a_reservation(self.current_user, book)
+            self.library.make_a_reservation(self.currentUser, book)
             msg = QMessageBox()
             msg.setWindowTitle("Done!")
             msg.setText("You succesfully made a reservation.")
@@ -349,7 +372,7 @@ class LibAppWindow(QMainWindow):
         database and updates the app output. It informs client that book has
         succesfully been returned to library.
         """
-        self.library.return_book(self.current_user, renting)
+        self.library.return_book(self.currentUser, renting)
         msg = QMessageBox()
         msg.setWindowTitle("Done!")
         msg.setText("You succesfully returned book to library.")
@@ -362,9 +385,10 @@ class LibAppWindow(QMainWindow):
         This method is called when client clicks on logout button on client's
         main menu page. It brings user back to very first page.
         """
-        self.current_user = None
-        self.current_book = None
-        self.current_renting = None
+        self.setDefaultBackgroundEffectCalendar()
+        self.currentUser = None
+        self.bookSelected = None
+        self.rentingSelected = None
         self.ui.loginLineEdit.clear()
         self.ui.Stack.setCurrentWidget(self.ui.home)
 
@@ -372,13 +396,13 @@ class LibAppWindow(QMainWindow):
         """
         This method is called when client clicks submit button on the first
         page It checks if the entered login occur in library member database.
-        If not raises error. If it does it makes self.current_user variable,
+        If not raises error. If it does it makes self.currentUser variable,
         which contains Member class instance that is currently using the
         library.
         """
         for member in self.library.list_of_members:
             if member.login == self.login:
-                self.current_user = member
+                self.currentUser = member
                 return None
         raise ValueError
 
@@ -401,6 +425,7 @@ class LibAppWindow(QMainWindow):
         This method is called when client clicks on any main menu button.
         """
         self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
+        self.ui.calendarStack.setCurrentIndex(0)
 
     def clientDisplayBooksPage(self):
         self.ui.Stack.setCurrentWidget(self.ui.client_display_books_page)

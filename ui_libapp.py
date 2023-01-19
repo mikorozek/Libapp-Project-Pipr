@@ -201,8 +201,8 @@ class Ui_MainWindow(object):
         self.Stack.addWidget(self.client_home_page)
         self.client_display_books_page = QWidget()
         self.client_display_books_page.setObjectName(u"client_display_books_page")
-        self.gridLayout_6 = QGridLayout(self.client_display_books_page)
-        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.verticalLayout_20 = QVBoxLayout(self.client_display_books_page)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.mainMenuButton0 = QPushButton(self.client_display_books_page)
@@ -336,7 +336,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.splitter)
 
 
-        self.gridLayout_6.addLayout(self.verticalLayout_5, 0, 0, 1, 1)
+        self.verticalLayout_20.addLayout(self.verticalLayout_5)
 
         self.Stack.addWidget(self.client_display_books_page)
         self.client_display_rentings_page = QWidget()
@@ -351,7 +351,13 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.mainMenuButton1)
 
-        self.splitter_2 = QSplitter(self.client_display_rentings_page)
+        self.ifClientHasRentingStack = QStackedWidget(self.client_display_rentings_page)
+        self.ifClientHasRentingStack.setObjectName(u"ifClientHasRentingStack")
+        self.page_9 = QWidget()
+        self.page_9.setObjectName(u"page_9")
+        self.verticalLayout_18 = QVBoxLayout(self.page_9)
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.splitter_2 = QSplitter(self.page_9)
         self.splitter_2.setObjectName(u"splitter_2")
         self.splitter_2.setOrientation(Qt.Horizontal)
         self.listOfCurrentRentings = QListWidget(self.splitter_2)
@@ -423,7 +429,23 @@ class Ui_MainWindow(object):
         self.curRentingStack.addWidget(self.page_2)
         self.splitter_2.addWidget(self.curRentingStack)
 
-        self.verticalLayout_2.addWidget(self.splitter_2)
+        self.verticalLayout_18.addWidget(self.splitter_2)
+
+        self.ifClientHasRentingStack.addWidget(self.page_9)
+        self.page_10 = QWidget()
+        self.page_10.setObjectName(u"page_10")
+        self.verticalLayout_19 = QVBoxLayout(self.page_10)
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.noCurrentRentingsLabel = QLabel(self.page_10)
+        self.noCurrentRentingsLabel.setObjectName(u"noCurrentRentingsLabel")
+        self.noCurrentRentingsLabel.setFont(font1)
+        self.noCurrentRentingsLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_19.addWidget(self.noCurrentRentingsLabel)
+
+        self.ifClientHasRentingStack.addWidget(self.page_10)
+
+        self.verticalLayout_2.addWidget(self.ifClientHasRentingStack)
 
 
         self.verticalLayout_8.addLayout(self.verticalLayout_2)
@@ -545,9 +567,10 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.Stack.setCurrentIndex(4)
+        self.Stack.setCurrentIndex(3)
         self.genreStack.setCurrentIndex(0)
         self.bookStack.setCurrentIndex(1)
+        self.ifClientHasRentingStack.setCurrentIndex(1)
         self.curRentingStack.setCurrentIndex(0)
         self.calendarStack.setCurrentIndex(1)
         self.rentingHistoryStack.setCurrentIndex(1)
@@ -582,6 +605,7 @@ class Ui_MainWindow(object):
         self.rentingInfo.setText("")
         self.returnBookButton.setText(QCoreApplication.translate("MainWindow", u"Return book to library", None))
         self.renewRentingButton.setText(QCoreApplication.translate("MainWindow", u"Renew renting", None))
+        self.noCurrentRentingsLabel.setText(QCoreApplication.translate("MainWindow", u"You have no active rentings.", None))
         self.mainMenuButton2.setText(QCoreApplication.translate("MainWindow", u"Main Menu", None))
         self.selectDayLabel.setText(QCoreApplication.translate("MainWindow", u"Choose day from calendar", None))
         self.rentingHistoryChooseRenting.setText(QCoreApplication.translate("MainWindow", u"Choose renting from list for info", None))

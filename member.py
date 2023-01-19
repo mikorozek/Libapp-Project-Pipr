@@ -122,11 +122,6 @@ class Member:
         self.current_renting_list.remove(renting)
 
     def renting_history_date_rentings(self, date):
-        if date not in [
-            renting.beginning_date
-            for renting in self.renting_history
-        ]:
-            raise ValueError
         return [
             renting for renting in self.renting_history
             if renting.beginning_date == date
