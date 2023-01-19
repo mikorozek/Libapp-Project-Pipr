@@ -27,7 +27,7 @@ class Renting:
     beginning_date: str = todays_date()
     expire_date: Union[str, None] = default_expiration_date()
     return_date: Union[str, None] = None
-    renews: int = 2
+    renews: Union[int, None] = 2
 
     @classmethod
     def import_from_json(cls, renting_data):
@@ -63,9 +63,11 @@ class Renting:
         Renews the renting. Elongates the time by one month. If amount
         of renews is lesser or equal to 0 it raises error.
         """
-        if self.renews <= 0:
+        if not self.renews:
             raise ValueError
         self.renews -= 1
+        if self.renews == 0:
+            self.renews = None
         self.expire_date = update_date(self.expire_date, 1)
 
     def return_renting(self):
@@ -78,4 +80,8 @@ class Renting:
         self.expire_date = None
 
     def __str__(self):
+        """
+        Method that returns string in Title - Authors of rented book format.
+        :return: str
+        """
         return f'{self.book.title} - {self.book.authors}'
