@@ -101,6 +101,8 @@ class Member:
         Method that makes reservation. It adds book to member's current
         reservation list. It also adds member's login to book reservation list.
         """
+        if self.login in book.current_reservations:
+            raise ValueError
         self.current_reservation_list.append(book)
         book.current_reservations.append(self.login)
 
@@ -112,11 +114,9 @@ class Member:
         self.current_reservation_list.remove(book)
         book.current_reservations.remove(self.login)
 
-    def return_a_book(self, renting):
+    def return_renting(self, renting):
         """
         When book is returned to library it removes renting from current
-        renting list and updates book status. It also updates renting info.
+        renting list.
         """
-        renting.return_renting()
-        renting.book.change_status()
         self.current_renting_list.remove(renting)

@@ -70,8 +70,12 @@ class Renting:
 
     def return_renting(self):
         """
-        If book is being returned to library. This method sets expire_date
-        to None and return_date to day of returning
+        Method that returns book to library. This method updates book status,
+        sets expire_date to None and return_date to day of returning.
         """
+        self.book.change_status()
         self.return_date = todays_date()
         self.expire_date = None
+
+    def __str__(self):
+        return f'{self.book.title} - {self.book.authors}'

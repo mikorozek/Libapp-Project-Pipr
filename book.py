@@ -73,15 +73,11 @@ class Book:
             return 'Available'
         return 'Unavailable'
 
-    def string_reservation_status(self):
+    def amount_of_reservations(self):
         """
-        Method that prints information about book reservation status.
-        :return: str, Booked or Not booked
+        Method that returns amount of current reservations.
         """
-        if self.is_booked():
-            return 'Booked'
-        else:
-            return 'Not booked'
+        return str(len(self.current_reservations))
 
     def change_status(self):
         """

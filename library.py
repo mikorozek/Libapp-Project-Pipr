@@ -89,6 +89,19 @@ class Library:
         self.list_of_rentings.remove(renting)
         self.update_rentings_file()
 
+    def genres(self):
+        """
+        Method that returns list of genres of books in library.
+        :return: List[str]
+        """
+        return list(set([book.genre for book in self.list_of_books]))
+
+    def genre_list_of_books(self, genre):
+        return [
+            book for book in self.list_of_books
+            if book.genre == genre
+        ]
+
     def borrow_book(self, user, book):
         """
         Method that checks if book is available. If not Book
@@ -107,6 +120,23 @@ class Library:
         renting = Renting(book)
         user.borrow_a_book(renting)
         self.list_of_rentings.append(renting)
+        self.update_books_file('books.json')
+        self.update_rentings_file('rentings.json')
+        self.update_members_file('members.json')
+
+    def make_a_reservation(self, user, book):
+        user.make_reservation(book)
+        self.update_books_file('books.json')
+        self.update_members_file('members.json')
+
+    def renew_renting(self, renting):
+        renting.renew()
+        self.update_members_file('members.json')
+        self.update_rentings_file('rentings.json')
+
+    def return_book(self, user, renting):
+        user.return_renting(renting)
+        renting.return_renting()
         self.update_books_file('books.json')
         self.update_rentings_file('rentings.json')
         self.update_members_file('members.json')
