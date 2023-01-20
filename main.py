@@ -33,6 +33,7 @@ class LibAppWindow(QMainWindow):
         self.setupClientDisplayBooksPage()
         self.setupClientDisplayRentingsPage()
         self.setupClientRentingHistoryPage()
+        self.setupClientDisplayReservationsPage()
 
     def setupHomePage(self):
         """
@@ -81,6 +82,9 @@ class LibAppWindow(QMainWindow):
         self.ui.clientDisplayRentingsButton.clicked.connect(
             self.clientDisplayRentingsPage
         )
+        self.ui.clientDisplayReservationsButton.clicked.connect(
+            self.clientDisplayReservationsPage
+        )
 
     def setupClientDisplayBooksPage(self):
         """
@@ -104,6 +108,45 @@ class LibAppWindow(QMainWindow):
         )
         self.ui.renewRentingButton.clicked.connect(
             lambda: self.renewRenting(self.rentingSelected)
+        )
+
+    def setupClientDisplayReservationsPage(self):
+        """
+        This method sets up the button on client's page where client can
+        browse current reservations.
+        """
+        self.ui.cancelReservationButton.clicked.connect(
+            lambda: self.cancelReservation(self.reservationSelected)
+        )
+
+    def setupReservationList(self):
+        """
+        This method sets up client's reservation list. If client has no
+        active reservations it displays information about it. If not client
+        can browse active reservations.
+        """
+        self.ui.listOfReservations.clear()
+        reservations = self.currentUser.current_reservation_list
+        if not reservations:
+            self.ui.ifClientHasNoReservationsStack.setCurrentIndex(1)
+            return None
+        self.ui.ifClientHasNoReservationsStack.setCurrentIndex(0)
+        self.ui.reservationStack.setCurrentIndex(0)
+        for reservation in reservations:
+            item = QListWidgetItem(str(reservation))
+            item.reservation = reservation
+            self.ui.listOfReservations.addItem(item)
+        self.ui.listOfReservations.itemClicked.connect(
+            self.reservationSelection
+            )
+
+    def reservationSelection(self, item):
+        self.ui.reservationStack.setCurrentIndex(1)
+        self.ui.reservationInfo.setText(
+            f"Title: {item.reservation.title}\n"
+            f"Authors: {item.reservation.authors}\n"
+            f"Genre: {item.reservation.genre}\n"
+            f"Id: {item.reservation.id}"
         )
 
     def setupClientRentingHistoryPage(self):
@@ -184,8 +227,9 @@ class LibAppWindow(QMainWindow):
 
     def setupCurrentRentingList(self):
         """
-        Method that sets up renting list for client's current rentings. Client
-        can browse books that are still borrowed and not returned.
+        Method that sets up renting list for client's current rentings. If
+        client has no active rentings it displays information about it. If
+        not client can browse books that are still borrowed and not returned.
         """
         self.ui.listOfCurrentRentings.clear()
         rentings = self.currentUser.current_renting_list
@@ -341,6 +385,12 @@ class LibAppWindow(QMainWindow):
             msg.setText("You already made a reservation for that book.")
             msg.setIcon(QMessageBox.Warning)
             msg.exec_()
+        except TypeError:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText("You cannot reserve book which you have rented.")
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
 
     def renewRenting(self, renting):
         """
@@ -435,6 +485,9 @@ class LibAppWindow(QMainWindow):
 
     def clientDisplayHistoryPage(self):
         self.ui.Stack.setCurrentWidget(self.ui.client_display_history_page)
+
+    def clientDisplayReservationsPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.client_display_reservations_page)
 
 
 def main(args):

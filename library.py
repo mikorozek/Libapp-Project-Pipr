@@ -125,6 +125,8 @@ class Library:
         self.update_members_file('members.json')
 
     def make_a_reservation(self, user, book):
+        if book in user.current_renting_list:
+            raise TypeError
         user.make_reservation(book)
         self.update_books_file('books.json')
         self.update_members_file('members.json')
@@ -135,8 +137,8 @@ class Library:
         self.update_rentings_file('rentings.json')
 
     def return_book(self, user, renting):
-        user.return_renting(renting)
         renting.return_renting()
+        user.return_renting(renting)
         self.update_books_file('books.json')
         self.update_rentings_file('rentings.json')
         self.update_members_file('members.json')
