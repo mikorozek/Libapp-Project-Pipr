@@ -215,19 +215,11 @@ class LibAppWindow(QMainWindow):
             msg.exec_()
             self.setupGenreList()
             self.setupReservationList()
-        except DoubleReservationError as e:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
-        except RentedBookReservationError as e:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
-        except AvailableBookReservationError as e:
+        except (
+            DoubleReservationError,
+            RentedBookReservationError,
+            AvailableBookReservationError
+        ) as e:
             msg = QMessageBox()
             msg.setWindowTitle("ERROR")
             msg.setText(str(e))
@@ -299,6 +291,7 @@ class LibAppWindow(QMainWindow):
         msg.setWindowTitle("Done!")
         msg.setText("You succesfully returned book to library.")
         msg.exec_()
+        self.setupGenreList()
         self.setupCurrentRentingList()
         self.setupRentingHistoryList()
         self.setupReservationList()
@@ -493,6 +486,7 @@ class LibAppWindow(QMainWindow):
         self.currentUser = None
         self.bookSelected = None
         self.rentingSelected = None
+        self.dateSelected = None
         self.ui.loginLineEdit.clear()
         self.ui.Stack.setCurrentWidget(self.ui.home)
 
@@ -531,6 +525,41 @@ class LibAppWindow(QMainWindow):
 
     def clientDisplayReservationsPage(self):
         self.ui.Stack.setCurrentWidget(self.ui.client_display_reservations_page)
+
+    def setupLibrarianHomePage(self):
+        self.ui.librarianAddBookButton.clicked.connect(
+            self.librarianDisplayAddBookPage
+        )
+        self.ui.librarianRemoveBookButton.clicked.connect(
+            self.librarianDisplayRemoveBookPage
+        )
+        self.ui.librarianAddMemberButton.clicked.connect(
+            self.librarianDisplayAddMemberPage
+        )
+        self.ui.librarianDisplayMembersButton.clicked.connect(
+            self.ui.librarianDisplayMembersPage
+        )
+        self.ui.librarianDisplayRentingsInfoButton.clicked.connect(
+            self.ui.librarianDisplayInfoPage
+        )
+        self.ui.librarianLogoutButton.clicked.connect(
+            self.logout
+        )
+
+    def librarianDisplayAddBookPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_book_page)
+
+    def librarianDisplayRemoveBookPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_remove_book_page)
+
+    def librarianDisplayAddMemberPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_member_page)
+
+    def librarianDisplayMembersPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_members_page)
+
+    def librarianDisplayInfoPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_info_page)
 
 
 def main(args):

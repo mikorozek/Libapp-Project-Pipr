@@ -1,3 +1,1 @@
-{
-    "Rentings": []
-}
+{"Rentings": [{"Book": {"Title": "Krzy\u017cacy", "Authors": "Sienkiewicz", "Genre": "History", "Id": "00032", "Available": false, "Current reservations": []}, "Beginning date": "20/01/2023", "Expire date": "20/04/2023", "Return date": null, "Renews amount": 2}, {"Book": {"Title": "Metro 2034", "Authors": "Dmitrij G\u0142uchowski", "Genre": "Post-Apo", "Id": "00339", "Available": false, "Current reservations": []}, "Beginning date": "20/01/2023", "Expire date": "20/04/2023", "Return date": null, "Renews amount": 2}, {"Book": {"Title": "Metro 2033", "Authors": "Dmitrij G\u0142uchowski", "Genre": "Post-Apo", "Id": "00333", "Available": false, "Current reservations": []}, "Beginning date": "20/01/2023", "Expire date": "20/04/2023", "Return date": null, "Renews amount": 2}]}

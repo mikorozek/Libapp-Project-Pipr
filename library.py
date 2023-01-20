@@ -98,6 +98,11 @@ class Library:
         return list(set([book.genre for book in self.list_of_books]))
 
     def genre_list_of_books(self, genre):
+        """
+        Method that returns list of books of one specified genre.
+        :param genre: str, represents genre of the books
+        :return: List[Book]
+        """
         return [
             book for book in self.list_of_books
             if book.genre == genre
@@ -134,19 +139,26 @@ class Library:
         if book.available:
             raise AvailableBookReservationError("You can borrow the book.")
         user.make_reservation(book)
-        book.add_reservation(user.login)
         self.update_books_file('books.json')
         self.update_members_file('members.json')
 
     def renew_renting(self, renting):
         """
-        M
+        Method that renews renting. It also updates library database.
+        :param renting: Renting class instance, renting that user wants
+            to renew
         """
         renting.renew()
         self.update_members_file('members.json')
         self.update_rentings_file('rentings.json')
 
     def return_book(self, user, renting):
+        """
+        Method that returns book to library. It also updates library database.
+        :param user: Member class instance, user that returns book to library
+        :param renting: Renting class instance, renting that user wants to
+            deactivate. Renting.book represents book that user wants to return
+        """
         renting.return_renting()
         user.return_renting(renting)
         self.update_books_file('books.json')
@@ -154,6 +166,13 @@ class Library:
         self.update_members_file('members.json')
 
     def cancel_reservation(self, user, reservation):
+        """
+        Method that cancels reservation made by the user in the past.
+        It also updates library database.
+        :param user: Member class instance, user that cancels the reservation
+        :param reservation: Book class instance, book that will no longer be
+            booked
+        """
         user.cancel_reservation(reservation)
         reservation.cancel_reservation(user.login)
         self.update_books_file('books.json')

@@ -665,7 +665,119 @@ class Ui_MainWindow(object):
         self.Stack.addWidget(self.client_display_reservations_page)
         self.librarian_home_page = QWidget()
         self.librarian_home_page.setObjectName(u"librarian_home_page")
+        self.gridLayout_12 = QGridLayout(self.librarian_home_page)
+        self.gridLayout_12.setObjectName(u"gridLayout_12")
+        self.verticalLayout_24 = QVBoxLayout()
+        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
+        self.gridLayout_11 = QGridLayout()
+        self.gridLayout_11.setObjectName(u"gridLayout_11")
+        self.librarianHelloLabel = QLabel(self.librarian_home_page)
+        self.librarianHelloLabel.setObjectName(u"librarianHelloLabel")
+        sizePolicy1.setHeightForWidth(self.librarianHelloLabel.sizePolicy().hasHeightForWidth())
+        self.librarianHelloLabel.setSizePolicy(sizePolicy1)
+        font15 = QFont()
+        font15.setFamily(u"DejaVu Sans")
+        font15.setPointSize(32)
+        font15.setBold(True)
+        font15.setWeight(75)
+        self.librarianHelloLabel.setFont(font15)
+        self.librarianHelloLabel.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_11.addWidget(self.librarianHelloLabel, 0, 0, 1, 1)
+
+        self.librarianWelcomeLabel = QLabel(self.librarian_home_page)
+        self.librarianWelcomeLabel.setObjectName(u"librarianWelcomeLabel")
+        sizePolicy1.setHeightForWidth(self.librarianWelcomeLabel.sizePolicy().hasHeightForWidth())
+        self.librarianWelcomeLabel.setSizePolicy(sizePolicy1)
+        self.librarianWelcomeLabel.setFont(font8)
+        self.librarianWelcomeLabel.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_11.addWidget(self.librarianWelcomeLabel, 1, 0, 1, 1)
+
+        self.librarianQstLabel = QLabel(self.librarian_home_page)
+        self.librarianQstLabel.setObjectName(u"librarianQstLabel")
+        sizePolicy.setHeightForWidth(self.librarianQstLabel.sizePolicy().hasHeightForWidth())
+        self.librarianQstLabel.setSizePolicy(sizePolicy)
+        self.librarianQstLabel.setFont(font4)
+        self.librarianQstLabel.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_11.addWidget(self.librarianQstLabel, 2, 0, 1, 1)
+
+
+        self.verticalLayout_24.addLayout(self.gridLayout_11)
+
+        self.gridLayout_10 = QGridLayout()
+        self.gridLayout_10.setObjectName(u"gridLayout_10")
+        self.librarianAddBookButton = QPushButton(self.librarian_home_page)
+        self.librarianAddBookButton.setObjectName(u"librarianAddBookButton")
+        sizePolicy4.setHeightForWidth(self.librarianAddBookButton.sizePolicy().hasHeightForWidth())
+        self.librarianAddBookButton.setSizePolicy(sizePolicy4)
+        self.librarianAddBookButton.setFont(font7)
+
+        self.gridLayout_10.addWidget(self.librarianAddBookButton, 0, 0, 1, 1)
+
+        self.librarianRemoveBookButton = QPushButton(self.librarian_home_page)
+        self.librarianRemoveBookButton.setObjectName(u"librarianRemoveBookButton")
+        sizePolicy4.setHeightForWidth(self.librarianRemoveBookButton.sizePolicy().hasHeightForWidth())
+        self.librarianRemoveBookButton.setSizePolicy(sizePolicy4)
+        self.librarianRemoveBookButton.setFont(font7)
+
+        self.gridLayout_10.addWidget(self.librarianRemoveBookButton, 1, 0, 1, 1)
+
+        self.librarianAddMemberButton = QPushButton(self.librarian_home_page)
+        self.librarianAddMemberButton.setObjectName(u"librarianAddMemberButton")
+        sizePolicy4.setHeightForWidth(self.librarianAddMemberButton.sizePolicy().hasHeightForWidth())
+        self.librarianAddMemberButton.setSizePolicy(sizePolicy4)
+        self.librarianAddMemberButton.setFont(font7)
+
+        self.gridLayout_10.addWidget(self.librarianAddMemberButton, 2, 0, 1, 1)
+
+        self.librarianDisplayMembersButton = QPushButton(self.librarian_home_page)
+        self.librarianDisplayMembersButton.setObjectName(u"librarianDisplayMembersButton")
+        sizePolicy4.setHeightForWidth(self.librarianDisplayMembersButton.sizePolicy().hasHeightForWidth())
+        self.librarianDisplayMembersButton.setSizePolicy(sizePolicy4)
+        self.librarianDisplayMembersButton.setFont(font7)
+
+        self.gridLayout_10.addWidget(self.librarianDisplayMembersButton, 3, 0, 1, 1)
+
+        self.librarianDisplayRentingsInfoButton = QPushButton(self.librarian_home_page)
+        self.librarianDisplayRentingsInfoButton.setObjectName(u"librarianDisplayRentingsInfoButton")
+        sizePolicy4.setHeightForWidth(self.librarianDisplayRentingsInfoButton.sizePolicy().hasHeightForWidth())
+        self.librarianDisplayRentingsInfoButton.setSizePolicy(sizePolicy4)
+        self.librarianDisplayRentingsInfoButton.setFont(font7)
+
+        self.gridLayout_10.addWidget(self.librarianDisplayRentingsInfoButton, 4, 0, 1, 1)
+
+        self.librarianLogoutButton = QPushButton(self.librarian_home_page)
+        self.librarianLogoutButton.setObjectName(u"librarianLogoutButton")
+        sizePolicy4.setHeightForWidth(self.librarianLogoutButton.sizePolicy().hasHeightForWidth())
+        self.librarianLogoutButton.setSizePolicy(sizePolicy4)
+        self.librarianLogoutButton.setFont(font7)
+
+        self.gridLayout_10.addWidget(self.librarianLogoutButton, 5, 0, 1, 1)
+
+
+        self.verticalLayout_24.addLayout(self.gridLayout_10)
+
+
+        self.gridLayout_12.addLayout(self.verticalLayout_24, 0, 0, 1, 1)
+
         self.Stack.addWidget(self.librarian_home_page)
+        self.librarian_add_book_page = QWidget()
+        self.librarian_add_book_page.setObjectName(u"librarian_add_book_page")
+        self.Stack.addWidget(self.librarian_add_book_page)
+        self.librarian_remove_book_page = QWidget()
+        self.librarian_remove_book_page.setObjectName(u"librarian_remove_book_page")
+        self.Stack.addWidget(self.librarian_remove_book_page)
+        self.librarian_add_member_page = QWidget()
+        self.librarian_add_member_page.setObjectName(u"librarian_add_member_page")
+        self.Stack.addWidget(self.librarian_add_member_page)
+        self.librarian_display_members_page = QWidget()
+        self.librarian_display_members_page.setObjectName(u"librarian_display_members_page")
+        self.Stack.addWidget(self.librarian_display_members_page)
+        self.librarian_display_info_page = QWidget()
+        self.librarian_display_info_page.setObjectName(u"librarian_display_info_page")
+        self.Stack.addWidget(self.librarian_display_info_page)
 
         self.horizontalLayout.addWidget(self.Stack)
 
@@ -676,7 +788,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.Stack.setCurrentIndex(5)
+        self.Stack.setCurrentIndex(6)
         self.genreStack.setCurrentIndex(0)
         self.bookStack.setCurrentIndex(1)
         self.ifClientHasRentingStack.setCurrentIndex(0)
@@ -698,7 +810,7 @@ class Ui_MainWindow(object):
         self.loginLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your login here...", None))
         self.submitLoginButton.setText(QCoreApplication.translate("MainWindow", u"Submit", None))
         self.clientHomeQstLabel.setText(QCoreApplication.translate("MainWindow", u"What would you like to do?", None))
-        self.clientHomeWelcomeLabel.setText(QCoreApplication.translate("MainWindow", u"Welcome to your account.", None))
+        self.clientHomeWelcomeLabel.setText(QCoreApplication.translate("MainWindow", u"Welcome to your Libapp account.", None))
         self.helloClientLabel.setText(QCoreApplication.translate("MainWindow", u"Hello!", None))
         self.clientDisplayRentingsButton.setText(QCoreApplication.translate("MainWindow", u"Display current rentings", None))
         self.clientDisplayHistoryButton.setText(QCoreApplication.translate("MainWindow", u"Display my renting history", None))
@@ -728,5 +840,14 @@ class Ui_MainWindow(object):
         self.reservationBorrowButton.setText(QCoreApplication.translate("MainWindow", u"Borrow book", None))
         self.cancelReservationButton.setText(QCoreApplication.translate("MainWindow", u"Cancel reservation", None))
         self.noCurrentReservationsLabel.setText(QCoreApplication.translate("MainWindow", u"You have no active reservations.", None))
+        self.librarianHelloLabel.setText(QCoreApplication.translate("MainWindow", u"Hello!", None))
+        self.librarianWelcomeLabel.setText(QCoreApplication.translate("MainWindow", u"Welcome to your Libapp account.", None))
+        self.librarianQstLabel.setText(QCoreApplication.translate("MainWindow", u"What would you like to do?", None))
+        self.librarianAddBookButton.setText(QCoreApplication.translate("MainWindow", u"Add book to library", None))
+        self.librarianRemoveBookButton.setText(QCoreApplication.translate("MainWindow", u"Remove book from library", None))
+        self.librarianAddMemberButton.setText(QCoreApplication.translate("MainWindow", u"Add member to library", None))
+        self.librarianDisplayMembersButton.setText(QCoreApplication.translate("MainWindow", u"Display list of members", None))
+        self.librarianDisplayRentingsInfoButton.setText(QCoreApplication.translate("MainWindow", u"Display info about rentings", None))
+        self.librarianLogoutButton.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
     # retranslateUi
 

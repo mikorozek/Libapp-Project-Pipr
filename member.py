@@ -121,6 +121,7 @@ class Member:
             raise RentedBookReservationError(
                 "You cannot reserve book which you have borrowed."
                 )
+        book.add_reservation(self.login)
         self.current_reservation_list.append(book)
 
     def cancel_reservation(self, book):
