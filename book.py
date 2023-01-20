@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from libapp_exceptions import UnavailableBookError
 from typing import List
 
@@ -22,8 +22,8 @@ class Book:
     authors: str
     genre: str
     id: str
-    available: bool
-    current_reservations: List[str]
+    available: bool = True
+    current_reservations: List[str] = field(default_factory=list)
 
     @classmethod
     def import_from_json(cls, book_data):
@@ -38,7 +38,6 @@ class Book:
         id = book_data['Id']
         available = book_data['Available']
         current_reservations = book_data['Current reservations']
-
         return cls(title, authors, genre, id, available, current_reservations)
 
     def export_to_json(self):

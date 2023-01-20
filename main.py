@@ -18,8 +18,10 @@ from libapp_exceptions import (
     DoubleReservationError,
     RentedBookReservationError,
     NoRenewalsError,
-    InvalidDateSelectionError
+    InvalidDateSelectionError,
+    EmptyLineError
 )
+from book import Book
 from library import Library
 import sys
 
@@ -37,12 +39,18 @@ class LibAppWindow(QMainWindow):
         self.ui.Stack.setCurrentWidget(self.ui.home)
         self.currentUser = None
         self.setupHomePage()
+
         self.setupClientHomePage()
         self.setupClientDisplayBooksPage()
         self.setupClientDisplayRentingsPage()
         self.setupClientRentingHistoryPage()
         self.setupClientDisplayReservationsPage()
+
         self.setupMainMenuButtons()
+
+        self.setupLibrarianHomePage()
+        self.setupLibrarianAddBookPage()
+        self.setupLibrarianRemoveBookPage()
 
     def setupHomePage(self):
         """
@@ -68,6 +76,7 @@ class LibAppWindow(QMainWindow):
                 self.setGreenBackgroundEffectCalendar()
                 self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
             elif self.currentUser.status == 'Librarian':
+                self.setupRemoveBookList()
                 self.ui.Stack.setCurrentWidget(self.ui.librarian_home_page)
         except InvalidLoginError as e:
             msg = QMessageBox()
@@ -98,7 +107,7 @@ class LibAppWindow(QMainWindow):
         This method sets up the buttons on client's main menu page.
         """
         self.ui.clientLogoutButton.clicked.connect(
-            self.logout
+            self.clientLogout
         )
         self.ui.clientDisplayBooksButton.clicked.connect(
             self.clientDisplayBooksPage
@@ -469,6 +478,10 @@ class LibAppWindow(QMainWindow):
         )
 
     def cancelReservation(self, reservation):
+        """
+        This method is called when client clicks on cancel reservation button
+        on client's reservations page. It cancels client's selected reservation.
+        """
         self.library.cancel_reservation(self.currentUser, reservation)
         msg = QMessageBox()
         msg.setWindowTitle("Done!")
@@ -477,7 +490,7 @@ class LibAppWindow(QMainWindow):
         self.setupReservationList()
         self.setupGenreList()
 
-    def logout(self):
+    def clientLogout(self):
         """
         This method is called when client clicks on logout button on client's
         main menu page. It brings user back to very first page.
@@ -489,6 +502,168 @@ class LibAppWindow(QMainWindow):
         self.dateSelected = None
         self.ui.loginLineEdit.clear()
         self.ui.Stack.setCurrentWidget(self.ui.home)
+
+    def clientDisplayBooksPage(self):
+        """
+        This method is called when client clicks on display books button on
+        client's home page.
+        """
+        self.ui.Stack.setCurrentWidget(self.ui.client_display_books_page)
+
+    def clientDisplayRentingsPage(self):
+        """
+        This method is called when client clicks on display current rentings
+        button on client's home page.
+        """
+        self.ui.Stack.setCurrentWidget(self.ui.client_display_rentings_page)
+
+    def clientDisplayHistoryPage(self):
+        """
+        This method is called when client clicks on display history of rentings
+        button on client's home page.
+        """
+        self.ui.Stack.setCurrentWidget(self.ui.client_display_history_page)
+
+    def clientDisplayReservationsPage(self):
+        """
+        This method is called when client clicks on display current
+        reservations button on client's home page.
+        """
+        self.ui.Stack.setCurrentWidget(self.ui.client_display_reservations_page)
+
+    def setupLibrarianHomePage(self):
+        """
+        Method that setups all buttons on librarian's home page.
+        """
+        self.ui.librarianAddBookButton.clicked.connect(
+            self.librarianDisplayAddBookPage
+        )
+        self.ui.librarianRemoveBookButton.clicked.connect(
+            self.librarianDisplayRemoveBookPage
+        )
+        self.ui.librarianAddMemberButton.clicked.connect(
+            self.librarianDisplayAddMemberPage
+        )
+        self.ui.librarianDisplayMembersButton.clicked.connect(
+            self.librarianDisplayMembersPage
+        )
+        self.ui.librarianDisplayRentingsInfoButton.clicked.connect(
+            self.librarianDisplayInfoPage
+        )
+        self.ui.librarianLogoutButton.clicked.connect(
+            self.librarianLogout
+        )
+
+    def setupLibrarianAddBookPage(self):
+        """
+        Method that sets up librarian page that shows up after clicking
+        significant button.
+        """
+        self.addBookTitle = None
+        self.addBookAuthors = None
+        self.addBookGenre = None
+        self.addBookId = None
+        self.ui.addBookTitleLineEdit.clear()
+        self.ui.addBookAuthorsLineEdit.clear()
+        self.ui.addBookGenreLineEdit.clear()
+        self.ui.addBookIdLineEdit.clear()
+        self.ui.addBookButton.clicked.connect(self.addBookToLibrary)
+
+    def addBookToLibrary(self):
+        """
+        Method that is called when librarian clicks on button on page where
+        he can add books to library. It raises Exceptions if any of the lines
+        is empty except id line. If id line is empty it will take 00000 id.
+        If this id is taken by another book, it will add 1 until it meets
+        not taken id.
+        :raise: Exception, if librarian wants to add book with no title,
+            authors or genre it will show up error message.
+        """
+        try:
+            self.addBookTitle = self.ui.addBookTitleLineEdit.text()
+            self.addBookAuthors = self.ui.addBookAuthorsLineEdit.text()
+            self.addBookGenre = self.ui.addBookGenreLineEdit.text()
+            self.addBookId = self.ui.addBookIdLineEdit.text().zfill(5)
+            if not self.addBookTitle:
+                raise EmptyLineError("Book title field is empty!")
+            if not self.addBookAuthors:
+                raise EmptyLineError("Book authors field is empty!")
+            if not self.addBookGenre:
+                raise EmptyLineError("Book genre field is empty!")
+            book = Book(
+                self.addBookTitle,
+                self.addBookAuthors,
+                self.addBookGenre,
+                self.addBookId
+                )
+            self.library.add_book_to_library(book)
+            msg = QMessageBox()
+            msg.setWindowTitle("Done!")
+            msg.setText("You succesfully added book to library.")
+            msg.exec_()
+            self.setupLibrarianAddBookPage()
+            self.setupRemoveBookList()
+        except EmptyLineError as e:
+            lambda: self.errorMessageBox(str(e))
+
+    def setupLibrarianRemoveBookPage(self):
+        self.ui.removeBookButton.clicked.connect(
+            lambda: self.removeBook(self.bookSelected)
+        )
+
+    def setupRemoveBookList(self):
+        self.ui.removalListOfBooks.clear()
+        books = self.library.list_of_books
+        if not books:
+            self.ui.checkIfBooksInLibraryStack.setCurrentIndex(0)
+            return None
+        self.ui.checkIfBooksInLibraryStack.setCurrentIndex(1)
+        self.ui.bookRemovalStack.setCurrentIndex(0)
+        for book in books:
+            item = QListWidgetItem(str(book))
+            item.book = book
+            self.ui.removalListOfBooks.addItem(item)
+        self.ui.removalListOfBooks.itemClicked.connect(
+            self.removalBookSelection
+        )
+
+    def removalBookSelection(self, item):
+        self.bookSelected = item.book
+        self.ui.bookRemovalStack.setCurrentIndex(1)
+        self.ui.bookRemoveInfo.setText(
+            f"Title: {item.book.title}\n"
+            f"Authors: {item.book.authors}\n"
+            f"Genre: {item.book.genre}\n"
+            f"Id : {item.book.id}\n"
+            f"Status: {item.book.status()}\n"
+            f"Amount of reservations: {item.book.amount_of_reservations()}"
+        )
+
+    def removeBook(self, book):
+        self.library.remove_book_from_library(book)
+        self.doneMessageBox("You succesfully removed book from library.")
+        self.setupRemoveBookList()
+
+    def librarianLogout(self):
+        self.currentUser = None
+        self.bookSelected = None
+        self.ui.loginLineEdit.clear()
+        self.ui.Stack.setCurrentWidget(self.ui.home)
+
+    def librarianDisplayAddBookPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_book_page)
+
+    def librarianDisplayRemoveBookPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_remove_book_page)
+
+    def librarianDisplayAddMemberPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_member_page)
+
+    def librarianDisplayMembersPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_members_page)
+
+    def librarianDisplayInfoPage(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_info_page)
 
     def setupMainMenuButtons(self):
         """
@@ -506,6 +681,12 @@ class LibAppWindow(QMainWindow):
         self.ui.mainMenuButton3.clicked.connect(
             self.clientMainMenuButtonClicked
         )
+        self.ui.mainMenuButton4.clicked.connect(
+            self.librarianMainMenuButtonClicked
+        )
+        self.ui.mainMenuButton5.clicked.connect(
+            self.librarianMainMenuButtonClicked
+        )
 
     def clientMainMenuButtonClicked(self):
         """
@@ -514,52 +695,22 @@ class LibAppWindow(QMainWindow):
         self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
         self.ui.calendarStack.setCurrentIndex(0)
 
-    def clientDisplayBooksPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_books_page)
+    def librarianMainMenuButtonClicked(self):
+        self.ui.Stack.setCurrentWidget(self.ui.librarian_home_page)
 
-    def clientDisplayRentingsPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_rentings_page)
+    def errorMessageBox(self, e):
+        msg = QMessageBox()
+        msg.setWindowTitle("ERROR")
+        msg.setText(e)
+        msg.setIcon(QMessageBox.Warning)
+        msg.exec_()
 
-    def clientDisplayHistoryPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_history_page)
-
-    def clientDisplayReservationsPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_reservations_page)
-
-    def setupLibrarianHomePage(self):
-        self.ui.librarianAddBookButton.clicked.connect(
-            self.librarianDisplayAddBookPage
-        )
-        self.ui.librarianRemoveBookButton.clicked.connect(
-            self.librarianDisplayRemoveBookPage
-        )
-        self.ui.librarianAddMemberButton.clicked.connect(
-            self.librarianDisplayAddMemberPage
-        )
-        self.ui.librarianDisplayMembersButton.clicked.connect(
-            self.ui.librarianDisplayMembersPage
-        )
-        self.ui.librarianDisplayRentingsInfoButton.clicked.connect(
-            self.ui.librarianDisplayInfoPage
-        )
-        self.ui.librarianLogoutButton.clicked.connect(
-            self.logout
-        )
-
-    def librarianDisplayAddBookPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_book_page)
-
-    def librarianDisplayRemoveBookPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_remove_book_page)
-
-    def librarianDisplayAddMemberPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_member_page)
-
-    def librarianDisplayMembersPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_members_page)
-
-    def librarianDisplayInfoPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_info_page)
+    def doneMessageBox(self, content):
+        msg = QMessageBox()
+        msg.setWindowTitle("Done!")
+        msg.setText(content)
+        msg.setIcon(QMessageBox.Information)
+        msg.exec_()
 
 
 def main(args):

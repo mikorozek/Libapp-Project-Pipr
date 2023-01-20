@@ -110,42 +110,55 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.clientHomeQstLabel = QLabel(self.client_home_page)
-        self.clientHomeQstLabel.setObjectName(u"clientHomeQstLabel")
-        sizePolicy.setHeightForWidth(self.clientHomeQstLabel.sizePolicy().hasHeightForWidth())
-        self.clientHomeQstLabel.setSizePolicy(sizePolicy)
+        self.helloClientLabel = QLabel(self.client_home_page)
+        self.helloClientLabel.setObjectName(u"helloClientLabel")
+        sizePolicy1.setHeightForWidth(self.helloClientLabel.sizePolicy().hasHeightForWidth())
+        self.helloClientLabel.setSizePolicy(sizePolicy1)
         font4 = QFont()
         font4.setFamily(u"DejaVu Sans")
-        font4.setPointSize(20)
+        font4.setPointSize(29)
         font4.setBold(True)
         font4.setWeight(75)
-        self.clientHomeQstLabel.setFont(font4)
-        self.clientHomeQstLabel.setAlignment(Qt.AlignCenter)
+        self.helloClientLabel.setFont(font4)
+        self.helloClientLabel.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.clientHomeQstLabel, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.helloClientLabel, 0, 0, 1, 1)
 
         self.clientHomeWelcomeLabel = QLabel(self.client_home_page)
         self.clientHomeWelcomeLabel.setObjectName(u"clientHomeWelcomeLabel")
         sizePolicy1.setHeightForWidth(self.clientHomeWelcomeLabel.sizePolicy().hasHeightForWidth())
         self.clientHomeWelcomeLabel.setSizePolicy(sizePolicy1)
-        self.clientHomeWelcomeLabel.setFont(font4)
+        font5 = QFont()
+        font5.setFamily(u"DejaVu Sans")
+        font5.setPointSize(20)
+        font5.setBold(True)
+        font5.setWeight(75)
+        self.clientHomeWelcomeLabel.setFont(font5)
         self.clientHomeWelcomeLabel.setAlignment(Qt.AlignCenter)
 
         self.gridLayout.addWidget(self.clientHomeWelcomeLabel, 1, 0, 1, 1)
 
-        self.helloClientLabel = QLabel(self.client_home_page)
-        self.helloClientLabel.setObjectName(u"helloClientLabel")
-        sizePolicy1.setHeightForWidth(self.helloClientLabel.sizePolicy().hasHeightForWidth())
-        self.helloClientLabel.setSizePolicy(sizePolicy1)
-        font5 = QFont()
-        font5.setFamily(u"DejaVu Sans")
-        font5.setPointSize(29)
-        font5.setBold(True)
-        font5.setWeight(75)
-        self.helloClientLabel.setFont(font5)
-        self.helloClientLabel.setAlignment(Qt.AlignCenter)
+        self.clientHomeQstLabel = QLabel(self.client_home_page)
+        self.clientHomeQstLabel.setObjectName(u"clientHomeQstLabel")
+        sizePolicy.setHeightForWidth(self.clientHomeQstLabel.sizePolicy().hasHeightForWidth())
+        self.clientHomeQstLabel.setSizePolicy(sizePolicy)
+        self.clientHomeQstLabel.setFont(font5)
+        self.clientHomeQstLabel.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.helloClientLabel, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.clientHomeQstLabel, 3, 0, 1, 1)
+
+        self.clientModeLabel = QLabel(self.client_home_page)
+        self.clientModeLabel.setObjectName(u"clientModeLabel")
+        sizePolicy1.setHeightForWidth(self.clientModeLabel.sizePolicy().hasHeightForWidth())
+        self.clientModeLabel.setSizePolicy(sizePolicy1)
+        font6 = QFont()
+        font6.setFamily(u"DejaVu Sans")
+        font6.setBold(True)
+        font6.setWeight(75)
+        self.clientModeLabel.setFont(font6)
+        self.clientModeLabel.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.clientModeLabel, 2, 0, 1, 1)
 
 
         self.verticalLayout_4.addLayout(self.gridLayout)
@@ -159,12 +172,12 @@ class Ui_MainWindow(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.clientDisplayRentingsButton.sizePolicy().hasHeightForWidth())
         self.clientDisplayRentingsButton.setSizePolicy(sizePolicy4)
-        font6 = QFont()
-        font6.setFamily(u"DejaVu Sans")
-        font6.setPointSize(20)
-        font6.setBold(False)
-        font6.setWeight(50)
-        self.clientDisplayRentingsButton.setFont(font6)
+        font7 = QFont()
+        font7.setFamily(u"DejaVu Sans")
+        font7.setPointSize(20)
+        font7.setBold(False)
+        font7.setWeight(50)
+        self.clientDisplayRentingsButton.setFont(font7)
 
         self.gridLayout_2.addWidget(self.clientDisplayRentingsButton, 2, 0, 1, 1)
 
@@ -172,7 +185,7 @@ class Ui_MainWindow(object):
         self.clientDisplayHistoryButton.setObjectName(u"clientDisplayHistoryButton")
         sizePolicy4.setHeightForWidth(self.clientDisplayHistoryButton.sizePolicy().hasHeightForWidth())
         self.clientDisplayHistoryButton.setSizePolicy(sizePolicy4)
-        self.clientDisplayHistoryButton.setFont(font6)
+        self.clientDisplayHistoryButton.setFont(font7)
 
         self.gridLayout_2.addWidget(self.clientDisplayHistoryButton, 4, 0, 1, 1)
 
@@ -180,7 +193,7 @@ class Ui_MainWindow(object):
         self.clientLogoutButton.setObjectName(u"clientLogoutButton")
         sizePolicy4.setHeightForWidth(self.clientLogoutButton.sizePolicy().hasHeightForWidth())
         self.clientLogoutButton.setSizePolicy(sizePolicy4)
-        self.clientLogoutButton.setFont(font6)
+        self.clientLogoutButton.setFont(font7)
 
         self.gridLayout_2.addWidget(self.clientLogoutButton, 5, 0, 1, 1)
 
@@ -188,7 +201,7 @@ class Ui_MainWindow(object):
         self.clientDisplayBooksButton.setObjectName(u"clientDisplayBooksButton")
         sizePolicy4.setHeightForWidth(self.clientDisplayBooksButton.sizePolicy().hasHeightForWidth())
         self.clientDisplayBooksButton.setSizePolicy(sizePolicy4)
-        self.clientDisplayBooksButton.setFont(font6)
+        self.clientDisplayBooksButton.setFont(font7)
 
         self.gridLayout_2.addWidget(self.clientDisplayBooksButton, 0, 0, 1, 1)
 
@@ -196,9 +209,9 @@ class Ui_MainWindow(object):
         self.clientDisplayReservationsButton.setObjectName(u"clientDisplayReservationsButton")
         sizePolicy4.setHeightForWidth(self.clientDisplayReservationsButton.sizePolicy().hasHeightForWidth())
         self.clientDisplayReservationsButton.setSizePolicy(sizePolicy4)
-        font7 = QFont()
-        font7.setFamily(u"DejaVu Sans")
-        self.clientDisplayReservationsButton.setFont(font7)
+        font8 = QFont()
+        font8.setFamily(u"DejaVu Sans")
+        self.clientDisplayReservationsButton.setFont(font8)
 
         self.gridLayout_2.addWidget(self.clientDisplayReservationsButton, 3, 0, 1, 1)
 
@@ -222,12 +235,12 @@ class Ui_MainWindow(object):
         sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.mainMenuButton0.sizePolicy().hasHeightForWidth())
         self.mainMenuButton0.setSizePolicy(sizePolicy5)
-        font8 = QFont()
-        font8.setFamily(u"DejaVu Sans")
-        font8.setPointSize(21)
-        font8.setBold(True)
-        font8.setWeight(75)
-        self.mainMenuButton0.setFont(font8)
+        font9 = QFont()
+        font9.setFamily(u"DejaVu Sans")
+        font9.setPointSize(21)
+        font9.setBold(True)
+        font9.setWeight(75)
+        self.mainMenuButton0.setFont(font9)
 
         self.verticalLayout_5.addWidget(self.mainMenuButton0)
 
@@ -241,10 +254,10 @@ class Ui_MainWindow(object):
         sizePolicy6.setVerticalStretch(0)
         sizePolicy6.setHeightForWidth(self.listOfGenres.sizePolicy().hasHeightForWidth())
         self.listOfGenres.setSizePolicy(sizePolicy6)
-        font9 = QFont()
-        font9.setFamily(u"DejaVu Sans")
-        font9.setPointSize(17)
-        self.listOfGenres.setFont(font9)
+        font10 = QFont()
+        font10.setFamily(u"DejaVu Sans")
+        font10.setPointSize(17)
+        self.listOfGenres.setFont(font10)
         self.splitter.addWidget(self.listOfGenres)
         self.genreStack = QStackedWidget(self.splitter)
         self.genreStack.setObjectName(u"genreStack")
@@ -267,7 +280,7 @@ class Ui_MainWindow(object):
         sizePolicy8.setVerticalStretch(0)
         sizePolicy8.setHeightForWidth(self.listOfBooks.sizePolicy().hasHeightForWidth())
         self.listOfBooks.setSizePolicy(sizePolicy8)
-        self.listOfBooks.setFont(font9)
+        self.listOfBooks.setFont(font10)
         self.splitter_3.addWidget(self.listOfBooks)
         self.bookStack = QStackedWidget(self.splitter_3)
         self.bookStack.setObjectName(u"bookStack")
@@ -277,7 +290,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.chooseBookLabel = QLabel(self.page_3)
         self.chooseBookLabel.setObjectName(u"chooseBookLabel")
-        self.chooseBookLabel.setFont(font8)
+        self.chooseBookLabel.setFont(font9)
         self.chooseBookLabel.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_7.addWidget(self.chooseBookLabel)
@@ -291,12 +304,12 @@ class Ui_MainWindow(object):
         self.bookInfo.setObjectName(u"bookInfo")
         sizePolicy1.setHeightForWidth(self.bookInfo.sizePolicy().hasHeightForWidth())
         self.bookInfo.setSizePolicy(sizePolicy1)
-        font10 = QFont()
-        font10.setFamily(u"DejaVu Sans")
-        font10.setPointSize(15)
-        font10.setBold(True)
-        font10.setWeight(75)
-        self.bookInfo.setFont(font10)
+        font11 = QFont()
+        font11.setFamily(u"DejaVu Sans")
+        font11.setPointSize(15)
+        font11.setBold(True)
+        font11.setWeight(75)
+        self.bookInfo.setFont(font11)
         self.bookInfo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_3.addWidget(self.bookInfo)
@@ -308,10 +321,10 @@ class Ui_MainWindow(object):
         sizePolicy9.setVerticalStretch(0)
         sizePolicy9.setHeightForWidth(self.bookBorrowButton.sizePolicy().hasHeightForWidth())
         self.bookBorrowButton.setSizePolicy(sizePolicy9)
-        font11 = QFont()
-        font11.setFamily(u"DejaVu Sans")
-        font11.setPointSize(15)
-        self.bookBorrowButton.setFont(font11)
+        font12 = QFont()
+        font12.setFamily(u"DejaVu Sans")
+        font12.setPointSize(15)
+        self.bookBorrowButton.setFont(font12)
 
         self.verticalLayout_3.addWidget(self.bookBorrowButton)
 
@@ -319,7 +332,7 @@ class Ui_MainWindow(object):
         self.reservationButton.setObjectName(u"reservationButton")
         sizePolicy9.setHeightForWidth(self.reservationButton.sizePolicy().hasHeightForWidth())
         self.reservationButton.setSizePolicy(sizePolicy9)
-        self.reservationButton.setFont(font11)
+        self.reservationButton.setFont(font12)
 
         self.verticalLayout_3.addWidget(self.reservationButton)
 
@@ -335,7 +348,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.chooseGenreLabel = QLabel(self.book_home_page)
         self.chooseGenreLabel.setObjectName(u"chooseGenreLabel")
-        self.chooseGenreLabel.setFont(font8)
+        self.chooseGenreLabel.setFont(font9)
         self.chooseGenreLabel.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_4.addWidget(self.chooseGenreLabel, 0, 0, 1, 1)
@@ -357,7 +370,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.mainMenuButton1 = QPushButton(self.client_display_rentings_page)
         self.mainMenuButton1.setObjectName(u"mainMenuButton1")
-        self.mainMenuButton1.setFont(font8)
+        self.mainMenuButton1.setFont(font9)
 
         self.verticalLayout_2.addWidget(self.mainMenuButton1)
 
@@ -386,7 +399,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.chooseRentingLabel = QLabel(self.page)
         self.chooseRentingLabel.setObjectName(u"chooseRentingLabel")
-        self.chooseRentingLabel.setFont(font8)
+        self.chooseRentingLabel.setFont(font9)
         self.chooseRentingLabel.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_9.addWidget(self.chooseRentingLabel)
@@ -405,31 +418,31 @@ class Ui_MainWindow(object):
         sizePolicy11.setVerticalStretch(0)
         sizePolicy11.setHeightForWidth(self.rentingBookInfo.sizePolicy().hasHeightForWidth())
         self.rentingBookInfo.setSizePolicy(sizePolicy11)
-        font12 = QFont()
-        font12.setFamily(u"DejaVu Sans")
-        font12.setPointSize(16)
-        font12.setBold(True)
-        font12.setWeight(75)
-        self.rentingBookInfo.setFont(font12)
+        font13 = QFont()
+        font13.setFamily(u"DejaVu Sans")
+        font13.setPointSize(16)
+        font13.setBold(True)
+        font13.setWeight(75)
+        self.rentingBookInfo.setFont(font13)
 
         self.verticalLayout_10.addWidget(self.rentingBookInfo)
 
         self.rentingInfo = QLabel(self.page_2)
         self.rentingInfo.setObjectName(u"rentingInfo")
-        self.rentingInfo.setFont(font12)
+        self.rentingInfo.setFont(font13)
         self.rentingInfo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_10.addWidget(self.rentingInfo)
 
         self.returnBookButton = QPushButton(self.page_2)
         self.returnBookButton.setObjectName(u"returnBookButton")
-        self.returnBookButton.setFont(font11)
+        self.returnBookButton.setFont(font12)
 
         self.verticalLayout_10.addWidget(self.returnBookButton)
 
         self.renewRentingButton = QPushButton(self.page_2)
         self.renewRentingButton.setObjectName(u"renewRentingButton")
-        self.renewRentingButton.setFont(font11)
+        self.renewRentingButton.setFont(font12)
 
         self.verticalLayout_10.addWidget(self.renewRentingButton)
 
@@ -469,7 +482,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
         self.mainMenuButton2 = QPushButton(self.client_display_history_page)
         self.mainMenuButton2.setObjectName(u"mainMenuButton2")
-        self.mainMenuButton2.setFont(font8)
+        self.mainMenuButton2.setFont(font9)
 
         self.verticalLayout_13.addWidget(self.mainMenuButton2)
 
@@ -483,11 +496,7 @@ class Ui_MainWindow(object):
         sizePolicy12.setVerticalStretch(0)
         sizePolicy12.setHeightForWidth(self.rentingHistoryCalendar.sizePolicy().hasHeightForWidth())
         self.rentingHistoryCalendar.setSizePolicy(sizePolicy12)
-        font13 = QFont()
-        font13.setFamily(u"DejaVu Sans")
-        font13.setBold(True)
-        font13.setWeight(75)
-        self.rentingHistoryCalendar.setFont(font13)
+        self.rentingHistoryCalendar.setFont(font6)
         self.splitter_4.addWidget(self.rentingHistoryCalendar)
         self.calendarStack = QStackedWidget(self.splitter_4)
         self.calendarStack.setObjectName(u"calendarStack")
@@ -502,7 +511,7 @@ class Ui_MainWindow(object):
         sizePolicy13.setVerticalStretch(0)
         sizePolicy13.setHeightForWidth(self.selectDayLabel.sizePolicy().hasHeightForWidth())
         self.selectDayLabel.setSizePolicy(sizePolicy13)
-        self.selectDayLabel.setFont(font8)
+        self.selectDayLabel.setFont(font9)
         self.selectDayLabel.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_12.addWidget(self.selectDayLabel)
@@ -528,7 +537,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
         self.rentingHistoryChooseRenting = QLabel(self.page_7)
         self.rentingHistoryChooseRenting.setObjectName(u"rentingHistoryChooseRenting")
-        self.rentingHistoryChooseRenting.setFont(font12)
+        self.rentingHistoryChooseRenting.setFont(font13)
         self.rentingHistoryChooseRenting.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_15.addWidget(self.rentingHistoryChooseRenting)
@@ -542,7 +551,7 @@ class Ui_MainWindow(object):
         self.rentingHistoryRentingInfo.setObjectName(u"rentingHistoryRentingInfo")
         sizePolicy.setHeightForWidth(self.rentingHistoryRentingInfo.sizePolicy().hasHeightForWidth())
         self.rentingHistoryRentingInfo.setSizePolicy(sizePolicy)
-        self.rentingHistoryRentingInfo.setFont(font12)
+        self.rentingHistoryRentingInfo.setFont(font13)
         self.rentingHistoryRentingInfo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_17.addWidget(self.rentingHistoryRentingInfo)
@@ -569,7 +578,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_21.setObjectName(u"verticalLayout_21")
         self.mainMenuButton3 = QPushButton(self.client_display_reservations_page)
         self.mainMenuButton3.setObjectName(u"mainMenuButton3")
-        self.mainMenuButton3.setFont(font8)
+        self.mainMenuButton3.setFont(font9)
 
         self.verticalLayout_21.addWidget(self.mainMenuButton3)
 
@@ -595,7 +604,7 @@ class Ui_MainWindow(object):
         self.gridLayout_8.setObjectName(u"gridLayout_8")
         self.chooseReservationLabel = QLabel(self.page_13)
         self.chooseReservationLabel.setObjectName(u"chooseReservationLabel")
-        self.chooseReservationLabel.setFont(font8)
+        self.chooseReservationLabel.setFont(font9)
         self.chooseReservationLabel.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_8.addWidget(self.chooseReservationLabel, 0, 0, 1, 1)
@@ -611,7 +620,7 @@ class Ui_MainWindow(object):
         self.reservationInfo.setObjectName(u"reservationInfo")
         sizePolicy12.setHeightForWidth(self.reservationInfo.sizePolicy().hasHeightForWidth())
         self.reservationInfo.setSizePolicy(sizePolicy12)
-        self.reservationInfo.setFont(font12)
+        self.reservationInfo.setFont(font13)
         self.reservationInfo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_23.addWidget(self.reservationInfo)
@@ -620,7 +629,7 @@ class Ui_MainWindow(object):
         self.reservationBorrowButton.setObjectName(u"reservationBorrowButton")
         sizePolicy5.setHeightForWidth(self.reservationBorrowButton.sizePolicy().hasHeightForWidth())
         self.reservationBorrowButton.setSizePolicy(sizePolicy5)
-        self.reservationBorrowButton.setFont(font7)
+        self.reservationBorrowButton.setFont(font8)
 
         self.verticalLayout_23.addWidget(self.reservationBorrowButton)
 
@@ -689,7 +698,7 @@ class Ui_MainWindow(object):
         self.librarianWelcomeLabel.setObjectName(u"librarianWelcomeLabel")
         sizePolicy1.setHeightForWidth(self.librarianWelcomeLabel.sizePolicy().hasHeightForWidth())
         self.librarianWelcomeLabel.setSizePolicy(sizePolicy1)
-        self.librarianWelcomeLabel.setFont(font8)
+        self.librarianWelcomeLabel.setFont(font9)
         self.librarianWelcomeLabel.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_11.addWidget(self.librarianWelcomeLabel, 1, 0, 1, 1)
@@ -698,10 +707,19 @@ class Ui_MainWindow(object):
         self.librarianQstLabel.setObjectName(u"librarianQstLabel")
         sizePolicy.setHeightForWidth(self.librarianQstLabel.sizePolicy().hasHeightForWidth())
         self.librarianQstLabel.setSizePolicy(sizePolicy)
-        self.librarianQstLabel.setFont(font4)
+        self.librarianQstLabel.setFont(font5)
         self.librarianQstLabel.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_11.addWidget(self.librarianQstLabel, 2, 0, 1, 1)
+        self.gridLayout_11.addWidget(self.librarianQstLabel, 3, 0, 1, 1)
+
+        self.librarianModeLabel = QLabel(self.librarian_home_page)
+        self.librarianModeLabel.setObjectName(u"librarianModeLabel")
+        sizePolicy1.setHeightForWidth(self.librarianModeLabel.sizePolicy().hasHeightForWidth())
+        self.librarianModeLabel.setSizePolicy(sizePolicy1)
+        self.librarianModeLabel.setFont(font6)
+        self.librarianModeLabel.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_11.addWidget(self.librarianModeLabel, 2, 0, 1, 1)
 
 
         self.verticalLayout_24.addLayout(self.gridLayout_11)
@@ -712,7 +730,7 @@ class Ui_MainWindow(object):
         self.librarianAddBookButton.setObjectName(u"librarianAddBookButton")
         sizePolicy4.setHeightForWidth(self.librarianAddBookButton.sizePolicy().hasHeightForWidth())
         self.librarianAddBookButton.setSizePolicy(sizePolicy4)
-        self.librarianAddBookButton.setFont(font7)
+        self.librarianAddBookButton.setFont(font8)
 
         self.gridLayout_10.addWidget(self.librarianAddBookButton, 0, 0, 1, 1)
 
@@ -720,7 +738,7 @@ class Ui_MainWindow(object):
         self.librarianRemoveBookButton.setObjectName(u"librarianRemoveBookButton")
         sizePolicy4.setHeightForWidth(self.librarianRemoveBookButton.sizePolicy().hasHeightForWidth())
         self.librarianRemoveBookButton.setSizePolicy(sizePolicy4)
-        self.librarianRemoveBookButton.setFont(font7)
+        self.librarianRemoveBookButton.setFont(font8)
 
         self.gridLayout_10.addWidget(self.librarianRemoveBookButton, 1, 0, 1, 1)
 
@@ -728,7 +746,7 @@ class Ui_MainWindow(object):
         self.librarianAddMemberButton.setObjectName(u"librarianAddMemberButton")
         sizePolicy4.setHeightForWidth(self.librarianAddMemberButton.sizePolicy().hasHeightForWidth())
         self.librarianAddMemberButton.setSizePolicy(sizePolicy4)
-        self.librarianAddMemberButton.setFont(font7)
+        self.librarianAddMemberButton.setFont(font8)
 
         self.gridLayout_10.addWidget(self.librarianAddMemberButton, 2, 0, 1, 1)
 
@@ -736,7 +754,7 @@ class Ui_MainWindow(object):
         self.librarianDisplayMembersButton.setObjectName(u"librarianDisplayMembersButton")
         sizePolicy4.setHeightForWidth(self.librarianDisplayMembersButton.sizePolicy().hasHeightForWidth())
         self.librarianDisplayMembersButton.setSizePolicy(sizePolicy4)
-        self.librarianDisplayMembersButton.setFont(font7)
+        self.librarianDisplayMembersButton.setFont(font8)
 
         self.gridLayout_10.addWidget(self.librarianDisplayMembersButton, 3, 0, 1, 1)
 
@@ -744,7 +762,7 @@ class Ui_MainWindow(object):
         self.librarianDisplayRentingsInfoButton.setObjectName(u"librarianDisplayRentingsInfoButton")
         sizePolicy4.setHeightForWidth(self.librarianDisplayRentingsInfoButton.sizePolicy().hasHeightForWidth())
         self.librarianDisplayRentingsInfoButton.setSizePolicy(sizePolicy4)
-        self.librarianDisplayRentingsInfoButton.setFont(font7)
+        self.librarianDisplayRentingsInfoButton.setFont(font8)
 
         self.gridLayout_10.addWidget(self.librarianDisplayRentingsInfoButton, 4, 0, 1, 1)
 
@@ -752,7 +770,7 @@ class Ui_MainWindow(object):
         self.librarianLogoutButton.setObjectName(u"librarianLogoutButton")
         sizePolicy4.setHeightForWidth(self.librarianLogoutButton.sizePolicy().hasHeightForWidth())
         self.librarianLogoutButton.setSizePolicy(sizePolicy4)
-        self.librarianLogoutButton.setFont(font7)
+        self.librarianLogoutButton.setFont(font8)
 
         self.gridLayout_10.addWidget(self.librarianLogoutButton, 5, 0, 1, 1)
 
@@ -765,9 +783,192 @@ class Ui_MainWindow(object):
         self.Stack.addWidget(self.librarian_home_page)
         self.librarian_add_book_page = QWidget()
         self.librarian_add_book_page.setObjectName(u"librarian_add_book_page")
+        self.gridLayout_13 = QGridLayout(self.librarian_add_book_page)
+        self.gridLayout_13.setObjectName(u"gridLayout_13")
+        self.verticalLayout_25 = QVBoxLayout()
+        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.mainMenuButton4 = QPushButton(self.librarian_add_book_page)
+        self.mainMenuButton4.setObjectName(u"mainMenuButton4")
+        self.mainMenuButton4.setFont(font9)
+
+        self.verticalLayout_25.addWidget(self.mainMenuButton4)
+
+        self.addBookTitleLabel = QLabel(self.librarian_add_book_page)
+        self.addBookTitleLabel.setObjectName(u"addBookTitleLabel")
+        sizePolicy11.setHeightForWidth(self.addBookTitleLabel.sizePolicy().hasHeightForWidth())
+        self.addBookTitleLabel.setSizePolicy(sizePolicy11)
+        self.addBookTitleLabel.setFont(font8)
+        self.addBookTitleLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_25.addWidget(self.addBookTitleLabel)
+
+        self.addBookTitleLineEdit = QLineEdit(self.librarian_add_book_page)
+        self.addBookTitleLineEdit.setObjectName(u"addBookTitleLineEdit")
+        sizePolicy8.setHeightForWidth(self.addBookTitleLineEdit.sizePolicy().hasHeightForWidth())
+        self.addBookTitleLineEdit.setSizePolicy(sizePolicy8)
+        self.addBookTitleLineEdit.setFont(font8)
+
+        self.verticalLayout_25.addWidget(self.addBookTitleLineEdit)
+
+        self.addBookAuthorsLabel = QLabel(self.librarian_add_book_page)
+        self.addBookAuthorsLabel.setObjectName(u"addBookAuthorsLabel")
+        sizePolicy11.setHeightForWidth(self.addBookAuthorsLabel.sizePolicy().hasHeightForWidth())
+        self.addBookAuthorsLabel.setSizePolicy(sizePolicy11)
+        self.addBookAuthorsLabel.setFont(font8)
+        self.addBookAuthorsLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_25.addWidget(self.addBookAuthorsLabel)
+
+        self.addBookAuthorsLineEdit = QLineEdit(self.librarian_add_book_page)
+        self.addBookAuthorsLineEdit.setObjectName(u"addBookAuthorsLineEdit")
+        sizePolicy8.setHeightForWidth(self.addBookAuthorsLineEdit.sizePolicy().hasHeightForWidth())
+        self.addBookAuthorsLineEdit.setSizePolicy(sizePolicy8)
+        self.addBookAuthorsLineEdit.setFont(font8)
+
+        self.verticalLayout_25.addWidget(self.addBookAuthorsLineEdit)
+
+        self.addBookGenreLabel = QLabel(self.librarian_add_book_page)
+        self.addBookGenreLabel.setObjectName(u"addBookGenreLabel")
+        sizePolicy11.setHeightForWidth(self.addBookGenreLabel.sizePolicy().hasHeightForWidth())
+        self.addBookGenreLabel.setSizePolicy(sizePolicy11)
+        self.addBookGenreLabel.setFont(font8)
+        self.addBookGenreLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_25.addWidget(self.addBookGenreLabel)
+
+        self.addBookGenreLineEdit = QLineEdit(self.librarian_add_book_page)
+        self.addBookGenreLineEdit.setObjectName(u"addBookGenreLineEdit")
+        sizePolicy8.setHeightForWidth(self.addBookGenreLineEdit.sizePolicy().hasHeightForWidth())
+        self.addBookGenreLineEdit.setSizePolicy(sizePolicy8)
+        self.addBookGenreLineEdit.setFont(font8)
+
+        self.verticalLayout_25.addWidget(self.addBookGenreLineEdit)
+
+        self.addBookIdLabel = QLabel(self.librarian_add_book_page)
+        self.addBookIdLabel.setObjectName(u"addBookIdLabel")
+        sizePolicy11.setHeightForWidth(self.addBookIdLabel.sizePolicy().hasHeightForWidth())
+        self.addBookIdLabel.setSizePolicy(sizePolicy11)
+        self.addBookIdLabel.setFont(font8)
+        self.addBookIdLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_25.addWidget(self.addBookIdLabel)
+
+        self.addBookIdLineEdit = QLineEdit(self.librarian_add_book_page)
+        self.addBookIdLineEdit.setObjectName(u"addBookIdLineEdit")
+        sizePolicy8.setHeightForWidth(self.addBookIdLineEdit.sizePolicy().hasHeightForWidth())
+        self.addBookIdLineEdit.setSizePolicy(sizePolicy8)
+        self.addBookIdLineEdit.setFont(font8)
+
+        self.verticalLayout_25.addWidget(self.addBookIdLineEdit)
+
+        self.addBookButton = QPushButton(self.librarian_add_book_page)
+        self.addBookButton.setObjectName(u"addBookButton")
+        sizePolicy5.setHeightForWidth(self.addBookButton.sizePolicy().hasHeightForWidth())
+        self.addBookButton.setSizePolicy(sizePolicy5)
+        self.addBookButton.setFont(font6)
+
+        self.verticalLayout_25.addWidget(self.addBookButton)
+
+
+        self.gridLayout_13.addLayout(self.verticalLayout_25, 0, 0, 1, 1)
+
         self.Stack.addWidget(self.librarian_add_book_page)
         self.librarian_remove_book_page = QWidget()
         self.librarian_remove_book_page.setObjectName(u"librarian_remove_book_page")
+        self.verticalLayout_27 = QVBoxLayout(self.librarian_remove_book_page)
+        self.verticalLayout_27.setObjectName(u"verticalLayout_27")
+        self.verticalLayout_26 = QVBoxLayout()
+        self.verticalLayout_26.setObjectName(u"verticalLayout_26")
+        self.mainMenuButton5 = QPushButton(self.librarian_remove_book_page)
+        self.mainMenuButton5.setObjectName(u"mainMenuButton5")
+        self.mainMenuButton5.setFont(font6)
+
+        self.verticalLayout_26.addWidget(self.mainMenuButton5)
+
+        self.checkIfBooksInLibraryStack = QStackedWidget(self.librarian_remove_book_page)
+        self.checkIfBooksInLibraryStack.setObjectName(u"checkIfBooksInLibraryStack")
+        self.page_15 = QWidget()
+        self.page_15.setObjectName(u"page_15")
+        self.verticalLayout_28 = QVBoxLayout(self.page_15)
+        self.verticalLayout_28.setObjectName(u"verticalLayout_28")
+        self.checkIfBookInLibraryLabel = QLabel(self.page_15)
+        self.checkIfBookInLibraryLabel.setObjectName(u"checkIfBookInLibraryLabel")
+        font16 = QFont()
+        font16.setFamily(u"DejaVu Sans")
+        font16.setPointSize(22)
+        font16.setBold(True)
+        font16.setWeight(75)
+        self.checkIfBookInLibraryLabel.setFont(font16)
+        self.checkIfBookInLibraryLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_28.addWidget(self.checkIfBookInLibraryLabel)
+
+        self.checkIfBooksInLibraryStack.addWidget(self.page_15)
+        self.page_16 = QWidget()
+        self.page_16.setObjectName(u"page_16")
+        self.horizontalLayout_3 = QHBoxLayout(self.page_16)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.splitter_7 = QSplitter(self.page_16)
+        self.splitter_7.setObjectName(u"splitter_7")
+        self.splitter_7.setOrientation(Qt.Horizontal)
+        self.removalListOfBooks = QListWidget(self.splitter_7)
+        self.removalListOfBooks.setObjectName(u"removalListOfBooks")
+        self.splitter_7.addWidget(self.removalListOfBooks)
+        self.bookRemovalStack = QStackedWidget(self.splitter_7)
+        self.bookRemovalStack.setObjectName(u"bookRemovalStack")
+        self.page_17 = QWidget()
+        self.page_17.setObjectName(u"page_17")
+        self.verticalLayout_29 = QVBoxLayout(self.page_17)
+        self.verticalLayout_29.setObjectName(u"verticalLayout_29")
+        self.chooseBookRemovalLabel = QLabel(self.page_17)
+        self.chooseBookRemovalLabel.setObjectName(u"chooseBookRemovalLabel")
+        sizePolicy9.setHeightForWidth(self.chooseBookRemovalLabel.sizePolicy().hasHeightForWidth())
+        self.chooseBookRemovalLabel.setSizePolicy(sizePolicy9)
+        self.chooseBookRemovalLabel.setFont(font6)
+        self.chooseBookRemovalLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_29.addWidget(self.chooseBookRemovalLabel)
+
+        self.bookRemovalStack.addWidget(self.page_17)
+        self.page_18 = QWidget()
+        self.page_18.setObjectName(u"page_18")
+        self.verticalLayout_31 = QVBoxLayout(self.page_18)
+        self.verticalLayout_31.setObjectName(u"verticalLayout_31")
+        self.verticalLayout_30 = QVBoxLayout()
+        self.verticalLayout_30.setObjectName(u"verticalLayout_30")
+        self.bookRemoveInfo = QLabel(self.page_18)
+        self.bookRemoveInfo.setObjectName(u"bookRemoveInfo")
+        sizePolicy9.setHeightForWidth(self.bookRemoveInfo.sizePolicy().hasHeightForWidth())
+        self.bookRemoveInfo.setSizePolicy(sizePolicy9)
+        self.bookRemoveInfo.setFont(font6)
+        self.bookRemoveInfo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+
+        self.verticalLayout_30.addWidget(self.bookRemoveInfo)
+
+        self.removeBookButton = QPushButton(self.page_18)
+        self.removeBookButton.setObjectName(u"removeBookButton")
+        font17 = QFont()
+        font17.setFamily(u"DejaVu Sans")
+        font17.setPointSize(18)
+        self.removeBookButton.setFont(font17)
+
+        self.verticalLayout_30.addWidget(self.removeBookButton)
+
+
+        self.verticalLayout_31.addLayout(self.verticalLayout_30)
+
+        self.bookRemovalStack.addWidget(self.page_18)
+        self.splitter_7.addWidget(self.bookRemovalStack)
+
+        self.horizontalLayout_3.addWidget(self.splitter_7)
+
+        self.checkIfBooksInLibraryStack.addWidget(self.page_16)
+
+        self.verticalLayout_26.addWidget(self.checkIfBooksInLibraryStack)
+
+
+        self.verticalLayout_27.addLayout(self.verticalLayout_26)
+
         self.Stack.addWidget(self.librarian_remove_book_page)
         self.librarian_add_member_page = QWidget()
         self.librarian_add_member_page.setObjectName(u"librarian_add_member_page")
@@ -790,13 +991,14 @@ class Ui_MainWindow(object):
 
         self.Stack.setCurrentIndex(6)
         self.genreStack.setCurrentIndex(0)
-        self.bookStack.setCurrentIndex(1)
+        self.bookStack.setCurrentIndex(0)
         self.ifClientHasRentingStack.setCurrentIndex(0)
         self.curRentingStack.setCurrentIndex(0)
         self.calendarStack.setCurrentIndex(1)
         self.rentingHistoryStack.setCurrentIndex(1)
         self.ifClientHasNoReservationsStack.setCurrentIndex(0)
-        self.reservationStack.setCurrentIndex(1)
+        self.reservationStack.setCurrentIndex(0)
+        self.checkIfBooksInLibraryStack.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -809,9 +1011,10 @@ class Ui_MainWindow(object):
         self.homeLabel2.setText(QCoreApplication.translate("MainWindow", u"Please, enter your login", None))
         self.loginLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your login here...", None))
         self.submitLoginButton.setText(QCoreApplication.translate("MainWindow", u"Submit", None))
-        self.clientHomeQstLabel.setText(QCoreApplication.translate("MainWindow", u"What would you like to do?", None))
-        self.clientHomeWelcomeLabel.setText(QCoreApplication.translate("MainWindow", u"Welcome to your Libapp account.", None))
         self.helloClientLabel.setText(QCoreApplication.translate("MainWindow", u"Hello!", None))
+        self.clientHomeWelcomeLabel.setText(QCoreApplication.translate("MainWindow", u"Welcome to your Libapp account.", None))
+        self.clientHomeQstLabel.setText(QCoreApplication.translate("MainWindow", u"What would you like to do?", None))
+        self.clientModeLabel.setText(QCoreApplication.translate("MainWindow", u"Rank of account: Client", None))
         self.clientDisplayRentingsButton.setText(QCoreApplication.translate("MainWindow", u"Display current rentings", None))
         self.clientDisplayHistoryButton.setText(QCoreApplication.translate("MainWindow", u"Display my renting history", None))
         self.clientLogoutButton.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
@@ -843,11 +1046,27 @@ class Ui_MainWindow(object):
         self.librarianHelloLabel.setText(QCoreApplication.translate("MainWindow", u"Hello!", None))
         self.librarianWelcomeLabel.setText(QCoreApplication.translate("MainWindow", u"Welcome to your Libapp account.", None))
         self.librarianQstLabel.setText(QCoreApplication.translate("MainWindow", u"What would you like to do?", None))
+        self.librarianModeLabel.setText(QCoreApplication.translate("MainWindow", u"Rank of account: Librarian", None))
         self.librarianAddBookButton.setText(QCoreApplication.translate("MainWindow", u"Add book to library", None))
         self.librarianRemoveBookButton.setText(QCoreApplication.translate("MainWindow", u"Remove book from library", None))
         self.librarianAddMemberButton.setText(QCoreApplication.translate("MainWindow", u"Add member to library", None))
         self.librarianDisplayMembersButton.setText(QCoreApplication.translate("MainWindow", u"Display list of members", None))
         self.librarianDisplayRentingsInfoButton.setText(QCoreApplication.translate("MainWindow", u"Display info about rentings", None))
         self.librarianLogoutButton.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
+        self.mainMenuButton4.setText(QCoreApplication.translate("MainWindow", u"Main menu", None))
+        self.addBookTitleLabel.setText(QCoreApplication.translate("MainWindow", u"Title:", None))
+        self.addBookTitleLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter title of the book...", None))
+        self.addBookAuthorsLabel.setText(QCoreApplication.translate("MainWindow", u"Authors:", None))
+        self.addBookAuthorsLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter authors of the book...", None))
+        self.addBookGenreLabel.setText(QCoreApplication.translate("MainWindow", u"Genre:", None))
+        self.addBookGenreLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter genre of the book...", None))
+        self.addBookIdLabel.setText(QCoreApplication.translate("MainWindow", u"Id:", None))
+        self.addBookIdLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter id of the book...", None))
+        self.addBookButton.setText(QCoreApplication.translate("MainWindow", u"Add book to library", None))
+        self.mainMenuButton5.setText(QCoreApplication.translate("MainWindow", u"Main Menu", None))
+        self.checkIfBookInLibraryLabel.setText(QCoreApplication.translate("MainWindow", u"There are currently no books in library", None))
+        self.chooseBookRemovalLabel.setText(QCoreApplication.translate("MainWindow", u"Choose book from list", None))
+        self.bookRemoveInfo.setText("")
+        self.removeBookButton.setText(QCoreApplication.translate("MainWindow", u"Remove book from library", None))
     # retranslateUi
 

@@ -10,8 +10,7 @@ import json
 
 class Library:
     """
-    Class representing Library which is used
-    when the application starts.
+    Class representing Library which is called when the application starts.
     This class stores data about members, books and rentings.
     :param list_of_books: List[Book], imported data from
         JSON file. Variable contains list of Book class
@@ -30,28 +29,43 @@ class Library:
 
     def add_book_to_library(self, book):
         """
-        Adds Book class instance to list of books.
-        Then it updates JSON file with library books data.
+        Adds Book class instance to list of books. Then it updates JSON file
+        with library books data.
         :param book: instance of Book class, which we
             want to add to library.
         """
+        while book.id in [
+            lib_book.id
+            for lib_book in self.list_of_books
+        ]:
+            book.id = str(int(book.id) + 1).zfill(5)
         self.list_of_books.append(book)
-        self.update_books_file()
+        self.update_books_file('books.json')
 
     def remove_book_from_library(self, book):
         """
-        Removes book instance from list of books.
-        Then it updates JSON file with library books data.
+        Removes book instance from list of books. Then it updates JSON file
+        with library books data.
         :param book: instance of Book class, which we
             want to remove from library.
         """
         self.list_of_books.remove(book)
-        self.update_books_file()
+        for member in self.list_of_members:
+            for renting in member.current_renting_list:
+                if renting.book == book:
+                    renting.return_renting()
+                    member.current_renting_list.remove(renting)
+            for reservation in member.current_reservation_list:
+                if reservation == book:
+                    member.current_reservation_list.remove(reservation)
+        self.update_books_file('books.json')
+        self.update_members_file('members.json')
+        self.update_rentings_file('rentings.json')
 
     def add_member_to_library(self, member):
         """
-        Adds Member class instance to list of members.
-        Then it updates JSON file with library members data.
+        Adds Member class instance to list of members. Then it updates JSON
+        file with library members data.
         "param member: instance of Member class, which we
             want to add to library
         """
@@ -60,8 +74,8 @@ class Library:
 
     def remove_member_from_library(self, member):
         """
-        Removes member instance from list of members.
-        Then it updates JSON file with library members data.
+        Removes member instance from list of members. Then it updates JSON
+        file with library members data.
         :param member: instance of Member class, which we
             want to remove from library.
         """
@@ -70,8 +84,8 @@ class Library:
 
     def add_renting_to_library(self, renting):
         """
-        Adds Renting class instance to list of rentings.
-        It updates rentings.json file with all rentings, that
+        Adds Renting class instance to list of rentings. It updates
+        rentings.json file with all rentings, that
         have ever been made in library.
         :param renting: instance of Renting class, which
             we want to add to list of rentings
@@ -81,9 +95,9 @@ class Library:
 
     def remove_renting_from_library(self, renting):
         """
-        Removes Renting class instance from list of rentings.
-        Then it updates rentings.json file with all rentings,
-        that have ever been made in library.
+        Removes Renting class instance from list of rentings. Then it updates
+        rentings.json file with all rentings, that have ever been made in
+        library.
         :param renting: instance of Renting class, which
             we want to remove from list of rentings
         """
@@ -110,12 +124,11 @@ class Library:
 
     def borrow_book(self, user, book):
         """
-        Method that checks if book is available. If book is
-        available the renting class instance is created with
-        default expire_date and renews params. Member class method
-        Member.borrow_a_book() adds renting to current_rentings
-        and renting_history member atributes. Then it adds Renting
-        to own list of rentings and updates all JSON files.
+        Method that checks if book is available. If book is available the
+        renting class instance is created with default expire_date and renews
+        params. Member class method Member.borrow_a_book() adds renting to
+        current_rentings and renting_history member atributes. Then it adds
+        Renting to own list of rentings and updates all JSON files.
         :param user: instance of Member class, which wants to
             borrow a book.
         "param book: instance of Book class, which somebody
