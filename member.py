@@ -143,3 +143,12 @@ class Member:
             renting for renting in self.renting_history
             if renting.beginning_date == date
         ]
+
+    def active_rentings_amount(self):
+        return len(self.current_renting_list)
+
+    def active_reservations_amount(self):
+        return len(self.current_reservation_list)
+
+    def __str__(self):
+        return f"{self.name} {self.surname} - {self.login}"

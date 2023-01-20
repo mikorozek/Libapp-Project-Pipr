@@ -4,7 +4,10 @@ from lists_from_files import (
     get_list_of_rentings_from_json
 )
 from renting import Renting
-from libapp_exceptions import AvailableBookReservationError
+from libapp_exceptions import (
+    AvailableBookReservationError,
+    TakenLoginError
+)
 import json
 
 
@@ -69,8 +72,13 @@ class Library:
         "param member: instance of Member class, which we
             want to add to library
         """
+        if member.login in [
+            lib_member.login
+            for lib_member in self.list_of_members
+        ]:
+            raise TakenLoginError("This login has already been taken!")
         self.list_of_members.append(member)
-        self.update_members_file()
+        self.update_members_file('members.json')
 
     def remove_member_from_library(self, member):
         """
@@ -79,30 +87,14 @@ class Library:
         :param member: instance of Member class, which we
             want to remove from library.
         """
+        for renting in member.current_renting_list:
+            renting.return_renting()
+        for reservation in member.current_reservation_list:
+            reservation.cancel_reservation(member.login)
         self.list_of_members.remove(member)
-        self.update_members_file()
-
-    def add_renting_to_library(self, renting):
-        """
-        Adds Renting class instance to list of rentings. It updates
-        rentings.json file with all rentings, that
-        have ever been made in library.
-        :param renting: instance of Renting class, which
-            we want to add to list of rentings
-        """
-        self.list_of_rentings.append(renting)
-        self.update_rentings_file()
-
-    def remove_renting_from_library(self, renting):
-        """
-        Removes Renting class instance from list of rentings. Then it updates
-        rentings.json file with all rentings, that have ever been made in
-        library.
-        :param renting: instance of Renting class, which
-            we want to remove from list of rentings
-        """
-        self.list_of_rentings.remove(renting)
-        self.update_rentings_file()
+        self.update_members_file('members.json')
+        self.update_books_file('books.json')
+        self.update_rentings_file('rentings.json')
 
     def genres(self):
         """

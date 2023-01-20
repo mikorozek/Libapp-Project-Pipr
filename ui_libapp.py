@@ -972,9 +972,197 @@ class Ui_MainWindow(object):
         self.Stack.addWidget(self.librarian_remove_book_page)
         self.librarian_add_member_page = QWidget()
         self.librarian_add_member_page.setObjectName(u"librarian_add_member_page")
+        self.verticalLayout_33 = QVBoxLayout(self.librarian_add_member_page)
+        self.verticalLayout_33.setObjectName(u"verticalLayout_33")
+        self.verticalLayout_32 = QVBoxLayout()
+        self.verticalLayout_32.setObjectName(u"verticalLayout_32")
+        self.mainMenuButton6 = QPushButton(self.librarian_add_member_page)
+        self.mainMenuButton6.setObjectName(u"mainMenuButton6")
+        self.mainMenuButton6.setFont(font6)
+
+        self.verticalLayout_32.addWidget(self.mainMenuButton6)
+
+        self.addMembersNameLabel = QLabel(self.librarian_add_member_page)
+        self.addMembersNameLabel.setObjectName(u"addMembersNameLabel")
+        sizePolicy11.setHeightForWidth(self.addMembersNameLabel.sizePolicy().hasHeightForWidth())
+        self.addMembersNameLabel.setSizePolicy(sizePolicy11)
+        self.addMembersNameLabel.setFont(font8)
+        self.addMembersNameLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_32.addWidget(self.addMembersNameLabel)
+
+        self.addMemberNameLineEdit = QLineEdit(self.librarian_add_member_page)
+        self.addMemberNameLineEdit.setObjectName(u"addMemberNameLineEdit")
+        sizePolicy8.setHeightForWidth(self.addMemberNameLineEdit.sizePolicy().hasHeightForWidth())
+        self.addMemberNameLineEdit.setSizePolicy(sizePolicy8)
+
+        self.verticalLayout_32.addWidget(self.addMemberNameLineEdit)
+
+        self.addMembersSurnameLabel = QLabel(self.librarian_add_member_page)
+        self.addMembersSurnameLabel.setObjectName(u"addMembersSurnameLabel")
+        sizePolicy11.setHeightForWidth(self.addMembersSurnameLabel.sizePolicy().hasHeightForWidth())
+        self.addMembersSurnameLabel.setSizePolicy(sizePolicy11)
+        self.addMembersSurnameLabel.setFont(font8)
+        self.addMembersSurnameLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_32.addWidget(self.addMembersSurnameLabel)
+
+        self.addMemberSurnameLineEdit = QLineEdit(self.librarian_add_member_page)
+        self.addMemberSurnameLineEdit.setObjectName(u"addMemberSurnameLineEdit")
+        sizePolicy8.setHeightForWidth(self.addMemberSurnameLineEdit.sizePolicy().hasHeightForWidth())
+        self.addMemberSurnameLineEdit.setSizePolicy(sizePolicy8)
+
+        self.verticalLayout_32.addWidget(self.addMemberSurnameLineEdit)
+
+        self.addMembersLoginLabel = QLabel(self.librarian_add_member_page)
+        self.addMembersLoginLabel.setObjectName(u"addMembersLoginLabel")
+        sizePolicy11.setHeightForWidth(self.addMembersLoginLabel.sizePolicy().hasHeightForWidth())
+        self.addMembersLoginLabel.setSizePolicy(sizePolicy11)
+        self.addMembersLoginLabel.setFont(font8)
+        self.addMembersLoginLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_32.addWidget(self.addMembersLoginLabel)
+
+        self.addMemberLoginLineEdit = QLineEdit(self.librarian_add_member_page)
+        self.addMemberLoginLineEdit.setObjectName(u"addMemberLoginLineEdit")
+        sizePolicy8.setHeightForWidth(self.addMemberLoginLineEdit.sizePolicy().hasHeightForWidth())
+        self.addMemberLoginLineEdit.setSizePolicy(sizePolicy8)
+
+        self.verticalLayout_32.addWidget(self.addMemberLoginLineEdit)
+
+        self.addMembersStatusLabel = QLabel(self.librarian_add_member_page)
+        self.addMembersStatusLabel.setObjectName(u"addMembersStatusLabel")
+        sizePolicy11.setHeightForWidth(self.addMembersStatusLabel.sizePolicy().hasHeightForWidth())
+        self.addMembersStatusLabel.setSizePolicy(sizePolicy11)
+        self.addMembersStatusLabel.setFont(font8)
+        self.addMembersStatusLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_32.addWidget(self.addMembersStatusLabel)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.addMemberClientCheckBox = QCheckBox(self.librarian_add_member_page)
+        self.addMemberClientCheckBox.setObjectName(u"addMemberClientCheckBox")
+        sizePolicy3.setHeightForWidth(self.addMemberClientCheckBox.sizePolicy().hasHeightForWidth())
+        self.addMemberClientCheckBox.setSizePolicy(sizePolicy3)
+        self.addMemberClientCheckBox.setChecked(False)
+
+        self.horizontalLayout_4.addWidget(self.addMemberClientCheckBox)
+
+        self.addMemberLibrarianCheckBox = QCheckBox(self.librarian_add_member_page)
+        self.addMemberLibrarianCheckBox.setObjectName(u"addMemberLibrarianCheckBox")
+        sizePolicy3.setHeightForWidth(self.addMemberLibrarianCheckBox.sizePolicy().hasHeightForWidth())
+        self.addMemberLibrarianCheckBox.setSizePolicy(sizePolicy3)
+
+        self.horizontalLayout_4.addWidget(self.addMemberLibrarianCheckBox)
+
+
+        self.verticalLayout_32.addLayout(self.horizontalLayout_4)
+
+        self.addMemberButton = QPushButton(self.librarian_add_member_page)
+        self.addMemberButton.setObjectName(u"addMemberButton")
+        self.addMemberButton.setFont(font6)
+
+        self.verticalLayout_32.addWidget(self.addMemberButton)
+
+
+        self.verticalLayout_33.addLayout(self.verticalLayout_32)
+
         self.Stack.addWidget(self.librarian_add_member_page)
         self.librarian_display_members_page = QWidget()
         self.librarian_display_members_page.setObjectName(u"librarian_display_members_page")
+        self.verticalLayout_35 = QVBoxLayout(self.librarian_display_members_page)
+        self.verticalLayout_35.setObjectName(u"verticalLayout_35")
+        self.verticalLayout_34 = QVBoxLayout()
+        self.verticalLayout_34.setObjectName(u"verticalLayout_34")
+        self.mainMenuButton7 = QPushButton(self.librarian_display_members_page)
+        self.mainMenuButton7.setObjectName(u"mainMenuButton7")
+        self.mainMenuButton7.setFont(font6)
+
+        self.verticalLayout_34.addWidget(self.mainMenuButton7)
+
+        self.checkIfMemberInLibraryStack = QStackedWidget(self.librarian_display_members_page)
+        self.checkIfMemberInLibraryStack.setObjectName(u"checkIfMemberInLibraryStack")
+        self.page_19 = QWidget()
+        self.page_19.setObjectName(u"page_19")
+        self.verticalLayout_36 = QVBoxLayout(self.page_19)
+        self.verticalLayout_36.setObjectName(u"verticalLayout_36")
+        self.label = QLabel(self.page_19)
+        self.label.setObjectName(u"label")
+        self.label.setFont(font16)
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_36.addWidget(self.label)
+
+        self.checkIfMemberInLibraryStack.addWidget(self.page_19)
+        self.page_20 = QWidget()
+        self.page_20.setObjectName(u"page_20")
+        self.verticalLayout_37 = QVBoxLayout(self.page_20)
+        self.verticalLayout_37.setObjectName(u"verticalLayout_37")
+        self.splitter_8 = QSplitter(self.page_20)
+        self.splitter_8.setObjectName(u"splitter_8")
+        self.splitter_8.setOrientation(Qt.Horizontal)
+        self.listOfMembers = QListWidget(self.splitter_8)
+        self.listOfMembers.setObjectName(u"listOfMembers")
+        self.splitter_8.addWidget(self.listOfMembers)
+        self.chooseMemberStack = QStackedWidget(self.splitter_8)
+        self.chooseMemberStack.setObjectName(u"chooseMemberStack")
+        self.page_21 = QWidget()
+        self.page_21.setObjectName(u"page_21")
+        self.verticalLayout_38 = QVBoxLayout(self.page_21)
+        self.verticalLayout_38.setObjectName(u"verticalLayout_38")
+        self.chooseMemberLabel = QLabel(self.page_21)
+        self.chooseMemberLabel.setObjectName(u"chooseMemberLabel")
+        self.chooseMemberLabel.setFont(font6)
+        self.chooseMemberLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_38.addWidget(self.chooseMemberLabel)
+
+        self.chooseMemberStack.addWidget(self.page_21)
+        self.page_22 = QWidget()
+        self.page_22.setObjectName(u"page_22")
+        self.verticalLayout_40 = QVBoxLayout(self.page_22)
+        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
+        self.verticalLayout_39 = QVBoxLayout()
+        self.verticalLayout_39.setObjectName(u"verticalLayout_39")
+        self.memberInfo = QLabel(self.page_22)
+        self.memberInfo.setObjectName(u"memberInfo")
+        sizePolicy9.setHeightForWidth(self.memberInfo.sizePolicy().hasHeightForWidth())
+        self.memberInfo.setSizePolicy(sizePolicy9)
+        self.memberInfo.setFont(font6)
+        self.memberInfo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+
+        self.verticalLayout_39.addWidget(self.memberInfo)
+
+        self.displayMemberStatisticsButton = QPushButton(self.page_22)
+        self.displayMemberStatisticsButton.setObjectName(u"displayMemberStatisticsButton")
+        font18 = QFont()
+        font18.setPointSize(15)
+        self.displayMemberStatisticsButton.setFont(font18)
+
+        self.verticalLayout_39.addWidget(self.displayMemberStatisticsButton)
+
+        self.removeMemberButton = QPushButton(self.page_22)
+        self.removeMemberButton.setObjectName(u"removeMemberButton")
+        self.removeMemberButton.setFont(font12)
+
+        self.verticalLayout_39.addWidget(self.removeMemberButton)
+
+
+        self.verticalLayout_40.addLayout(self.verticalLayout_39)
+
+        self.chooseMemberStack.addWidget(self.page_22)
+        self.splitter_8.addWidget(self.chooseMemberStack)
+
+        self.verticalLayout_37.addWidget(self.splitter_8)
+
+        self.checkIfMemberInLibraryStack.addWidget(self.page_20)
+
+        self.verticalLayout_34.addWidget(self.checkIfMemberInLibraryStack)
+
+
+        self.verticalLayout_35.addLayout(self.verticalLayout_34)
+
         self.Stack.addWidget(self.librarian_display_members_page)
         self.librarian_display_info_page = QWidget()
         self.librarian_display_info_page.setObjectName(u"librarian_display_info_page")
@@ -989,11 +1177,11 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.Stack.setCurrentIndex(6)
+        self.Stack.setCurrentIndex(10)
         self.genreStack.setCurrentIndex(0)
         self.bookStack.setCurrentIndex(0)
         self.ifClientHasRentingStack.setCurrentIndex(0)
-        self.curRentingStack.setCurrentIndex(0)
+        self.curRentingStack.setCurrentIndex(1)
         self.calendarStack.setCurrentIndex(1)
         self.rentingHistoryStack.setCurrentIndex(1)
         self.ifClientHasNoReservationsStack.setCurrentIndex(0)
@@ -1068,5 +1256,22 @@ class Ui_MainWindow(object):
         self.chooseBookRemovalLabel.setText(QCoreApplication.translate("MainWindow", u"Choose book from list", None))
         self.bookRemoveInfo.setText("")
         self.removeBookButton.setText(QCoreApplication.translate("MainWindow", u"Remove book from library", None))
+        self.mainMenuButton6.setText(QCoreApplication.translate("MainWindow", u"Main Menu", None))
+        self.addMembersNameLabel.setText(QCoreApplication.translate("MainWindow", u"Name:", None))
+        self.addMemberNameLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the name of member...", None))
+        self.addMembersSurnameLabel.setText(QCoreApplication.translate("MainWindow", u"Surname:", None))
+        self.addMemberSurnameLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the surname of member...", None))
+        self.addMembersLoginLabel.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.addMemberLoginLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the login of member...", None))
+        self.addMembersStatusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))
+        self.addMemberClientCheckBox.setText(QCoreApplication.translate("MainWindow", u"Client", None))
+        self.addMemberLibrarianCheckBox.setText(QCoreApplication.translate("MainWindow", u"Librarian", None))
+        self.addMemberButton.setText(QCoreApplication.translate("MainWindow", u"Add member to library", None))
+        self.mainMenuButton7.setText(QCoreApplication.translate("MainWindow", u"Main Menu", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"There are currently no clients signed to library", None))
+        self.chooseMemberLabel.setText(QCoreApplication.translate("MainWindow", u"Choose member from list", None))
+        self.memberInfo.setText("")
+        self.displayMemberStatisticsButton.setText(QCoreApplication.translate("MainWindow", u"Display statistics", None))
+        self.removeMemberButton.setText(QCoreApplication.translate("MainWindow", u"Remove from library", None))
     # retranslateUi
 

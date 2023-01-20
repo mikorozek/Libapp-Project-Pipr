@@ -84,11 +84,35 @@ class InvalidDateSelectionError(Exception):
 
 class EmptyLineError(Exception):
     """
-    An exception class for indicating attemption of adding element with empty
+    An exception class for indicating attempt of adding element with empty
     line. This exception should be raised when user for example wants to add
     book to library with empty Title line.
     :param message: str, appropriate message that should be displayed
         to the user
+    """
+    def __init__(self, message):
+        super().__init__(message)
+
+
+class UncheckedMemberStatusError(Exception):
+    """
+    An exception class for indicationg attempt of adding member with not chosen
+    status. This exception should be raised when user wants to add member to
+    library without choosing his status(Clien/Librarian).
+    :param message: str, appropriate message that should be displayed to the
+        user
+    """
+    def __init__(self, message):
+        super().__init__(message)
+
+
+class TakenLoginError(Exception):
+    """
+    An exception class for indicating attempt of adding member with login that
+    has already been taken. This exception should be raised when user clicks
+    button which adds member to library.
+    :param message: str, appropriate message that should be displayed to the
+        user
     """
     def __init__(self, message):
         super().__init__(message)

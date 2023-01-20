@@ -19,9 +19,11 @@ from libapp_exceptions import (
     RentedBookReservationError,
     NoRenewalsError,
     InvalidDateSelectionError,
-    EmptyLineError
+    EmptyLineError,
+    UncheckedMemberStatusError
 )
 from book import Book
+from member import Member
 from library import Library
 import sys
 
@@ -51,6 +53,9 @@ class LibAppWindow(QMainWindow):
         self.setupLibrarianHomePage()
         self.setupLibrarianAddBookPage()
         self.setupLibrarianRemoveBookPage()
+        self.setupLibrarianAddMemberPage()
+        self.setupLibrarianAddMemberCheckBoxes()
+        self.setupLibrarianDisplayMembersPage()
 
     def setupHomePage(self):
         """
@@ -77,13 +82,10 @@ class LibAppWindow(QMainWindow):
                 self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
             elif self.currentUser.status == 'Librarian':
                 self.setupRemoveBookList()
+                self.setupMembersList()
                 self.ui.Stack.setCurrentWidget(self.ui.librarian_home_page)
         except InvalidLoginError as e:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+            self.errorMessageBox(str(e))
 
     def setCurrentUser(self):
         """
@@ -191,21 +193,14 @@ class LibAppWindow(QMainWindow):
         """
         try:
             self.library.borrow_book(self.currentUser, book)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully borrowed a book.")
-            msg.exec_()
+            self.doneMessageBox("You succesfully borrowed a book.")
             self.setupGenreList()
             self.setupCurrentRentingList()
             self.setupRentingHistoryList()
             self.setupReservationList()
             self.setGreenBackgroundEffectCalendar()
         except UnavailableBookError as e:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+            self.errorMessageBox(str(e))
 
     def reserveBook(self, book):
         """
@@ -218,10 +213,7 @@ class LibAppWindow(QMainWindow):
         """
         try:
             self.library.make_a_reservation(self.currentUser, book)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully made a reservation.")
-            msg.exec_()
+            self.doneMessageBox("You succesfully made a reservation.")
             self.setupGenreList()
             self.setupReservationList()
         except (
@@ -229,11 +221,7 @@ class LibAppWindow(QMainWindow):
             RentedBookReservationError,
             AvailableBookReservationError
         ) as e:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+            self.errorMessageBox(str(e))
 
     def setupClientDisplayRentingsPage(self):
         """
@@ -296,10 +284,7 @@ class LibAppWindow(QMainWindow):
         succesfully been returned to library.
         """
         self.library.return_book(self.currentUser, renting)
-        msg = QMessageBox()
-        msg.setWindowTitle("Done!")
-        msg.setText("You succesfully returned book to library.")
-        msg.exec_()
+        self.doneMessageBox("You succesfully returned book to library.")
         self.setupGenreList()
         self.setupCurrentRentingList()
         self.setupRentingHistoryList()
@@ -316,17 +301,10 @@ class LibAppWindow(QMainWindow):
         """
         try:
             self.library.renew_renting(renting)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully renewed renting.")
-            msg.exec_()
+            self.doneMessageBox("You succesfully renewed renting.")
             self.setupCurrentRentingList()
         except NoRenewalsError as e:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+            self.errorMessageBox(str(e))
 
     def setupClientRentingHistoryPage(self):
         """
@@ -363,11 +341,7 @@ class LibAppWindow(QMainWindow):
             self.setupRentingHistoryList()
         except InvalidDateSelectionError as e:
             self.ui.calendarStack.setCurrentIndex(0)
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText(str(e))
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+            self.errorMessageBox(str(e))
 
     def setupRentingHistoryList(self):
         """
@@ -483,10 +457,7 @@ class LibAppWindow(QMainWindow):
         on client's reservations page. It cancels client's selected reservation.
         """
         self.library.cancel_reservation(self.currentUser, reservation)
-        msg = QMessageBox()
-        msg.setWindowTitle("Done!")
-        msg.setText("You succesfully cancelled reservation.")
-        msg.exec_()
+        self.doneMessageBox("You succesfully cancelled reservation.")
         self.setupReservationList()
         self.setupGenreList()
 
@@ -597,14 +568,11 @@ class LibAppWindow(QMainWindow):
                 self.addBookId
                 )
             self.library.add_book_to_library(book)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully added book to library.")
-            msg.exec_()
+            self.doneMessageBox("You succesfully added book to library.")
             self.setupLibrarianAddBookPage()
             self.setupRemoveBookList()
         except EmptyLineError as e:
-            lambda: self.errorMessageBox(str(e))
+            self.errorMessageBox(str(e))
 
     def setupLibrarianRemoveBookPage(self):
         self.ui.removeBookButton.clicked.connect(
@@ -644,6 +612,118 @@ class LibAppWindow(QMainWindow):
         self.doneMessageBox("You succesfully removed book from library.")
         self.setupRemoveBookList()
 
+    def setupLibrarianAddMemberPage(self):
+        self.addMemberName = None
+        self.addMemberSurname = None
+        self.addMemberLogin = None
+        self.addMemberStatus = None
+        self.ui.addMemberNameLineEdit.clear()
+        self.ui.addMemberSurnameLineEdit.clear()
+        self.ui.addMemberLoginLineEdit.clear()
+        self.ui.addMemberClientCheckBox.setChecked(False)
+        self.ui.addMemberLibrarianCheckBox.setChecked(False)
+        self.ui.addMemberButton.clicked.connect(self.addMemberToLibrary)
+
+    def setupLibrarianAddMemberCheckBoxes(self):
+        self.ui.addMemberClientCheckBox.toggled.connect(
+            self.clientCheckBoxToggled
+            )
+        self.ui.addMemberLibrarianCheckBox.toggled.connect(
+            self.librarianCheckBoxToggled
+            )
+
+    def clientCheckBoxToggled(self):
+        self.ui.addMemberLibrarianCheckBox.setChecked(
+                not self.ui.addMemberClientCheckBox.isChecked()
+            )
+        self.addMemberStatus = "Client"
+
+    def librarianCheckBoxToggled(self):
+        self.ui.addMemberClientCheckBox.setChecked(
+                not self.ui.addMemberLibrarianCheckBox.isChecked()
+            )
+        self.addMemberStatus = "Librarian"
+
+    def addMemberToLibrary(self):
+        try:
+            self.addMemberName = self.ui.addMemberNameLineEdit.text()
+            self.addMemberSurname = self.ui.addMemberSurnameLineEdit.text()
+            self.addMemberLogin = self.ui.addMemberLoginLineEdit.text()
+            if not self.addMemberName:
+                raise EmptyLineError("Member name field is empty!")
+            if not self.addMemberSurname:
+                raise EmptyLineError("Member surname field is empty!")
+            if not self.addMemberLogin:
+                raise EmptyLineError("Member login field is empty!")
+            if not any([
+                self.ui.addMemberClientCheckBox.isChecked(),
+                self.ui.addMemberLibrarianCheckBox.isChecked()
+            ]):
+                raise UncheckedMemberStatusError(
+                    "Member status is not chosen!"
+                    )
+            member = Member(
+                self.addMemberName,
+                self.addMemberSurname,
+                self.addMemberLogin,
+                self.addMemberStatus
+            )
+            self.library.add_member_to_library(member)
+            self.doneMessageBox("You succesfully added member to library.")
+            self.setupLibrarianAddMemberPage()
+            self.setupMembersList()
+        except (
+            EmptyLineError,
+            UncheckedMemberStatusError
+        ) as e:
+            self.errorMessageBox(str(e))
+
+    def setupLibrarianDisplayMembersPage(self):
+        self.ui.displayMemberStatisticsButton.clicked.connect(
+            lambda: self.displayMemberStatistics(self.memberSelected)
+        )
+        self.ui.removeMemberButton.clicked.connect(
+            lambda: self.removeMember(self.memberSelected)
+        )
+
+    def setupMembersList(self):
+        self.ui.listOfMembers.clear()
+        members = [
+            member for member in self.library.list_of_members
+            if member.status == "Client"
+        ]
+        if not members:
+            self.ui.checkIfMemberInLibraryStack.setCurrentIndex(0)
+            return None
+        self.ui.checkIfMemberInLibraryStack.setCurrentIndex(1)
+        self.ui.chooseMemberStack.setCurrentIndex(0)
+        for member in members:
+            item = QListWidgetItem(str(member))
+            item.member = member
+            self.ui.listOfMembers.addItem(item)
+        self.ui.listOfMembers.itemClicked.connect(
+            self.memberSelection
+        )
+
+    def memberSelection(self, item):
+        self.memberSelected = item.member
+        self.ui.chooseMemberStack.setCurrentIndex(1)
+        self.ui.memberInfo.setText(
+            f"Name: {item.member.name}\n"
+            f"Surname: {item.member.surname}\n"
+            f"Login: {item.member.login}\n"
+            f"Active rentings: {item.member.active_rentings_amount()}\n"
+            f"Active reservations: {item.member.active_reservations_amount()}"
+        )
+
+    def displayMemberStatistics(self, member):
+        pass
+
+    def removeMember(self, member):
+        self.library.remove_member_from_library(member)
+        self.doneMessageBox("You succesfully removed member from library.")
+        self.setupMembersList()
+
     def librarianLogout(self):
         self.currentUser = None
         self.bookSelected = None
@@ -680,13 +760,19 @@ class LibAppWindow(QMainWindow):
             )
         self.ui.mainMenuButton3.clicked.connect(
             self.clientMainMenuButtonClicked
-        )
+            )
         self.ui.mainMenuButton4.clicked.connect(
             self.librarianMainMenuButtonClicked
-        )
+            )
         self.ui.mainMenuButton5.clicked.connect(
             self.librarianMainMenuButtonClicked
-        )
+            )
+        self.ui.mainMenuButton6.clicked.connect(
+            self.librarianMainMenuButtonClicked
+            )
+        self.ui.mainMenuButton7.clicked.connect(
+            self.librarianMainMenuButtonClicked
+            )
 
     def clientMainMenuButtonClicked(self):
         """
