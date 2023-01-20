@@ -879,6 +879,9 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="currentIndex">
+                  <number>1</number>
+                 </property>
                  <widget class="QWidget" name="page_13">
                   <layout class="QGridLayout" name="gridLayout_8">
                    <item row="0" column="0">
@@ -930,6 +933,24 @@
                       </widget>
                      </item>
                      <item>
+                      <widget class="QPushButton" name="reservationBorrowButton">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>DejaVu Sans</family>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Borrow book</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QPushButton" name="cancelReservationButton">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
@@ -940,7 +961,7 @@
                        <property name="font">
                         <font>
                          <family>DejaVu Sans</family>
-                         <pointsize>15</pointsize>
+                         <pointsize>20</pointsize>
                         </font>
                        </property>
                        <property name="text">

@@ -10,9 +10,18 @@ from PySide2.QtGui import (
     QColor
 )
 from PySide2.QtCore import QDate
+from ui_libapp import Ui_MainWindow
+from libapp_exceptions import (
+    AvailableBookReservationError,
+    InvalidLoginError,
+    UnavailableBookError,
+    DoubleReservationError,
+    RentedBookReservationError,
+    NoRenewalsError,
+    InvalidDateSelectionError
+)
 from library import Library
 import sys
-from ui_libapp import Ui_MainWindow
 
 
 class LibAppWindow(QMainWindow):
@@ -29,11 +38,11 @@ class LibAppWindow(QMainWindow):
         self.currentUser = None
         self.setupHomePage()
         self.setupClientHomePage()
-        self.setupMainMenuButtons()
         self.setupClientDisplayBooksPage()
         self.setupClientDisplayRentingsPage()
         self.setupClientRentingHistoryPage()
         self.setupClientDisplayReservationsPage()
+        self.setupMainMenuButtons()
 
     def setupHomePage(self):
         """
@@ -55,16 +64,34 @@ class LibAppWindow(QMainWindow):
             if self.currentUser.status == 'Client':
                 self.setupCurrentRentingList()
                 self.setupGenreList()
+                self.setupReservationList()
                 self.setGreenBackgroundEffectCalendar()
                 self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
             elif self.currentUser.status == 'Librarian':
                 self.ui.Stack.setCurrentWidget(self.ui.librarian_home_page)
-        except ValueError:
+        except InvalidLoginError as e:
             msg = QMessageBox()
             msg.setWindowTitle("ERROR")
-            msg.setText("There is no account with such login in database.")
+            msg.setText(str(e))
             msg.setIcon(QMessageBox.Warning)
             msg.exec_()
+
+    def setCurrentUser(self):
+        """
+        This method is called when client clicks submit button on the first
+        page It checks if the entered login occur in library member database.
+        If not, it raises exception. If it does it sets up self.currentUser
+        variable, which represents Member class instance that is currently
+        using the library.
+        :raise: Exception, no login in library database
+        """
+        for member in self.library.list_of_members:
+            if member.login == self.login:
+                self.currentUser = member
+                return None
+        raise InvalidLoginError(
+            "There is no account with such login in database."
+            )
 
     def setupClientHomePage(self):
         """
@@ -97,174 +124,6 @@ class LibAppWindow(QMainWindow):
         self.ui.reservationButton.clicked.connect(
             lambda: self.reserveBook(self.bookSelected)
             )
-
-    def setupClientDisplayRentingsPage(self):
-        """
-        This method sets up the buttons on client's page where client can
-        browse books that he borrowed from library.
-        """
-        self.ui.returnBookButton.clicked.connect(
-            lambda: self.returnBook(self.rentingSelected)
-        )
-        self.ui.renewRentingButton.clicked.connect(
-            lambda: self.renewRenting(self.rentingSelected)
-        )
-
-    def setupClientDisplayReservationsPage(self):
-        """
-        This method sets up the button on client's page where client can
-        browse current reservations.
-        """
-        self.ui.cancelReservationButton.clicked.connect(
-            lambda: self.cancelReservation(self.reservationSelected)
-        )
-
-    def setupReservationList(self):
-        """
-        This method sets up client's reservation list. If client has no
-        active reservations it displays information about it. If not client
-        can browse active reservations.
-        """
-        self.ui.listOfReservations.clear()
-        reservations = self.currentUser.current_reservation_list
-        if not reservations:
-            self.ui.ifClientHasNoReservationsStack.setCurrentIndex(1)
-            return None
-        self.ui.ifClientHasNoReservationsStack.setCurrentIndex(0)
-        self.ui.reservationStack.setCurrentIndex(0)
-        for reservation in reservations:
-            item = QListWidgetItem(str(reservation))
-            item.reservation = reservation
-            self.ui.listOfReservations.addItem(item)
-        self.ui.listOfReservations.itemClicked.connect(
-            self.reservationSelection
-            )
-
-    def reservationSelection(self, item):
-        self.ui.reservationStack.setCurrentIndex(1)
-        self.ui.reservationInfo.setText(
-            f"Title: {item.reservation.title}\n"
-            f"Authors: {item.reservation.authors}\n"
-            f"Genre: {item.reservation.genre}\n"
-            f"Id: {item.reservation.id}"
-        )
-
-    def setupClientRentingHistoryPage(self):
-        """
-        This method sets up the calendar on client's history page. Client
-        can click on the calendar date that is highlighted with green colour
-        to display info about rentings that have been made that day.
-        """
-        self.dateSelected = None
-        self.ui.rentingHistoryCalendar.selectionChanged.connect(
-            self.chooseDate
-            )
-        self.ui.calendarStack.setCurrentIndex(0)
-
-    def chooseDate(self):
-        """
-        This method is called when client click on the date button on calendar
-        on renting history page. It transform QDate object from calendar which
-        is returned when selected and transforms it into day/monty/year format
-        string.
-        """
-        try:
-            self.dateSelected = str(
-                self.ui.rentingHistoryCalendar.selectedDate().toString("dd/MM/yyyy")
-                )
-            if self.dateSelected not in [
-                renting.beginning_date
-                for renting in self.currentUser.renting_history
-            ]:
-                raise ValueError
-            self.setupRentingHistoryList()
-        except ValueError:
-            self.ui.calendarStack.setCurrentIndex(0)
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText("You did not rent anything this day.")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
-
-    def setupRentingHistoryList(self):
-        """
-        This method sets up list of rentings for a day on calendar which user
-        clicked. If there was no renting during clicked day, it simply shows up
-        error. If there was renting during clicked day it displays list of
-        rentings that had been made that time.
-        """
-        if not self.dateSelected:
-            return None
-        self.ui.listOfRentingsHistory.clear()
-        rentings = self.currentUser.renting_history_date_rentings(
-            self.dateSelected
-            )
-        self.ui.calendarStack.setCurrentIndex(1)
-        self.ui.rentingHistoryStack.setCurrentIndex(0)
-        for renting in rentings:
-            item = QListWidgetItem(str(renting))
-            item.renting = renting
-            self.ui.listOfRentingsHistory.addItem(item)
-        self.ui.listOfRentingsHistory.itemClicked.connect(
-            self.rentingFromHistorySelection
-        )
-
-    def rentingFromHistorySelection(self, item):
-        """
-        Method that is called when client clicks item on the renting history
-        list for chosen day. It shows info about book that client borrowed and
-        if the book was already returned or not.
-        """
-        self.ui.rentingHistoryStack.setCurrentIndex(1)
-        self.ui.rentingHistoryRentingInfo.setText(
-            f"Title: {item.renting.book.title}\n"
-            f"Authors: {item.renting.book.authors}\n"
-            f"Genre: {item.renting.book.genre}\n"
-            f"Id: {item.renting.book.id}\n"
-            f"Beginning date: {item.renting.beginning_date}\n"
-            f"Returning date: {item.renting.return_date}"
-        )
-
-    def setupCurrentRentingList(self):
-        """
-        Method that sets up renting list for client's current rentings. If
-        client has no active rentings it displays information about it. If
-        not client can browse books that are still borrowed and not returned.
-        """
-        self.ui.listOfCurrentRentings.clear()
-        rentings = self.currentUser.current_renting_list
-        if not rentings:
-            self.ui.ifClientHasRentingStack.setCurrentIndex(1)
-            return None
-        self.ui.ifClientHasRentingStack.setCurrentIndex(0)
-        self.ui.curRentingStack.setCurrentIndex(0)
-        for renting in rentings:
-            item = QListWidgetItem(str(renting))
-            item.renting = renting
-            self.ui.listOfCurrentRentings.addItem(item)
-        self.ui.listOfCurrentRentings.itemClicked.connect(
-            self.currentRentingSelection
-            )
-
-    def currentRentingSelection(self, item):
-        """
-        Method that is called when client clicks on renting representation
-        on the current renting list. It shows info about renting that user
-        clicks on.
-        """
-        self.rentingSelected = item.renting
-        self.ui.curRentingStack.setCurrentIndex(1)
-        self.ui.rentingBookInfo.setText(
-            f"Title: {item.renting.book.title}\n"
-            f"Authors: {item.renting.book.authors}\n"
-            f"Genre: {item.renting.book.genre}\n"
-            f"Id: {item.renting.book.id}"
-        )
-        self.ui.rentingInfo.setText(
-            f"Date of renting: {item.renting.beginning_date}\n"
-            f"Expiration date: {item.renting.expire_date}\n"
-            f"Amount of renews: {str(item.renting.renews)}"
-        )
 
     def setupGenreList(self):
         """
@@ -313,6 +172,240 @@ class LibAppWindow(QMainWindow):
             f"Amount of reservations: {item.book.amount_of_reservations()}"
         )
 
+    def borrowBook(self, book):
+        """
+        This method is called when client clicks on borrow book button on
+        page where genres and books are displayed. It updates the library
+        database and updates the app output. When book is already borrowed
+        it shows up error message. If client borrows a book it shows message
+        that book has succesfully been borrowed.
+        """
+        try:
+            self.library.borrow_book(self.currentUser, book)
+            msg = QMessageBox()
+            msg.setWindowTitle("Done!")
+            msg.setText("You succesfully borrowed a book.")
+            msg.exec_()
+            self.setupGenreList()
+            self.setupCurrentRentingList()
+            self.setupRentingHistoryList()
+            self.setupReservationList()
+            self.setGreenBackgroundEffectCalendar()
+        except UnavailableBookError as e:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText(str(e))
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
+
+    def reserveBook(self, book):
+        """
+        This method is called when client clicks on make a reservation button
+        on page where genres and books are displayed. It updates the library
+        database and updates the app output. If reservation for book has
+        already been made it shows up error message. If client can make a
+        reservation it shows up the message that reservation has succesfully
+        been made.
+        """
+        try:
+            self.library.make_a_reservation(self.currentUser, book)
+            msg = QMessageBox()
+            msg.setWindowTitle("Done!")
+            msg.setText("You succesfully made a reservation.")
+            msg.exec_()
+            self.setupGenreList()
+            self.setupReservationList()
+        except DoubleReservationError as e:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText(str(e))
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
+        except RentedBookReservationError as e:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText(str(e))
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
+        except AvailableBookReservationError as e:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText(str(e))
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
+
+    def setupClientDisplayRentingsPage(self):
+        """
+        This method sets up the buttons on client's page where client can
+        browse books that he borrowed from library.
+        """
+        self.ui.returnBookButton.clicked.connect(
+            lambda: self.returnBook(self.rentingSelected)
+        )
+        self.ui.renewRentingButton.clicked.connect(
+            lambda: self.renewRenting(self.rentingSelected)
+        )
+
+    def setupCurrentRentingList(self):
+        """
+        Method that sets up renting list for client's current rentings. If
+        client has no active rentings it displays information about it. If
+        not client can browse books that are still borrowed and not returned.
+        """
+        self.ui.listOfCurrentRentings.clear()
+        rentings = self.currentUser.current_renting_list
+        if not rentings:
+            self.ui.ifClientHasRentingStack.setCurrentIndex(1)
+            return None
+        self.ui.ifClientHasRentingStack.setCurrentIndex(0)
+        self.ui.curRentingStack.setCurrentIndex(0)
+        for renting in rentings:
+            item = QListWidgetItem(str(renting))
+            item.renting = renting
+            self.ui.listOfCurrentRentings.addItem(item)
+        self.ui.listOfCurrentRentings.itemClicked.connect(
+            self.currentRentingSelection
+            )
+
+    def currentRentingSelection(self, item):
+        """
+        Method that is called when client clicks on renting representation
+        on the current renting list. It shows info about renting that user
+        clicks on.
+        """
+        self.rentingSelected = item.renting
+        self.ui.curRentingStack.setCurrentIndex(1)
+        self.ui.rentingBookInfo.setText(
+            f"Title: {item.renting.book.title}\n"
+            f"Authors: {item.renting.book.authors}\n"
+            f"Genre: {item.renting.book.genre}\n"
+            f"Id: {item.renting.book.id}"
+        )
+        self.ui.rentingInfo.setText(
+            f"Date of renting: {item.renting.beginning_date}\n"
+            f"Expiration date: {item.renting.expire_date}\n"
+            f"Amount of renews: {str(item.renting.renews)}"
+        )
+
+    def returnBook(self, renting):
+        """
+        This method is called when client clicks return book button on page
+        where client's current rentings are displayed. It updates the library
+        database and updates the app output. It informs client that book has
+        succesfully been returned to library.
+        """
+        self.library.return_book(self.currentUser, renting)
+        msg = QMessageBox()
+        msg.setWindowTitle("Done!")
+        msg.setText("You succesfully returned book to library.")
+        msg.exec_()
+        self.setupCurrentRentingList()
+        self.setupRentingHistoryList()
+        self.setupReservationList()
+
+    def renewRenting(self, renting):
+        """
+        This method is called when client clicks on renew renting button on
+        page where client's current rentings are displayed. It updates the
+        library database and updates the app output. If there is no renewal
+        left for the renting it shows up error message. If client can
+        succesfully renew renting it shows up message that renting renewal
+        has succesfully been made.
+        """
+        try:
+            self.library.renew_renting(renting)
+            msg = QMessageBox()
+            msg.setWindowTitle("Done!")
+            msg.setText("You succesfully renewed renting.")
+            msg.exec_()
+            self.setupCurrentRentingList()
+        except NoRenewalsError as e:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText(str(e))
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
+
+    def setupClientRentingHistoryPage(self):
+        """
+        This method sets up the calendar on client's history page. Client
+        can click on the calendar date that is highlighted with green colour
+        to display info about rentings that have been made that day.
+        """
+        self.dateSelected = None
+        self.ui.rentingHistoryCalendar.selectionChanged.connect(
+            self.chooseDate
+            )
+        self.ui.calendarStack.setCurrentIndex(0)
+
+    def chooseDate(self):
+        """
+        This method is called when client click on the date button on calendar
+        on renting history page. It transform QDate object from calendar which
+        is returned when selected and transforms it into day/monty/year format
+        string.
+        :raise: Exception, when user clicks date with no rentings in his
+            history
+        """
+        try:
+            self.dateSelected = str(
+                self.ui.rentingHistoryCalendar.selectedDate().toString("dd/MM/yyyy")
+                )
+            if self.dateSelected not in [
+                renting.beginning_date
+                for renting in self.currentUser.renting_history
+            ]:
+                raise InvalidDateSelectionError(
+                    "You did not rent anything this day."
+                    )
+            self.setupRentingHistoryList()
+        except InvalidDateSelectionError as e:
+            self.ui.calendarStack.setCurrentIndex(0)
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            msg.setText(str(e))
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
+
+    def setupRentingHistoryList(self):
+        """
+        This method sets up list of rentings for a day on calendar which user
+        clicked. If there was no renting during clicked day, it simply shows up
+        error. If there was renting during clicked day it displays list of
+        rentings that had been made that time.
+        """
+        if not self.dateSelected:
+            return None
+        self.ui.listOfRentingsHistory.clear()
+        rentings = self.currentUser.renting_history_date_rentings(
+            self.dateSelected
+            )
+        self.ui.calendarStack.setCurrentIndex(1)
+        self.ui.rentingHistoryStack.setCurrentIndex(0)
+        for renting in rentings:
+            item = QListWidgetItem(str(renting))
+            item.renting = renting
+            self.ui.listOfRentingsHistory.addItem(item)
+        self.ui.listOfRentingsHistory.itemClicked.connect(
+            self.rentingFromHistorySelection
+        )
+
+    def rentingFromHistorySelection(self, item):
+        """
+        Method that is called when client clicks item on the renting history
+        list for chosen day. It shows info about book that client borrowed and
+        if the book was already returned or not.
+        """
+        self.ui.rentingHistoryStack.setCurrentIndex(1)
+        self.ui.rentingHistoryRentingInfo.setText(
+            f"Title: {item.renting.book.title}\n"
+            f"Authors: {item.renting.book.authors}\n"
+            f"Genre: {item.renting.book.genre}\n"
+            f"Id: {item.renting.book.id}\n"
+            f"Beginning date: {item.renting.beginning_date}\n"
+            f"Returning date: {item.renting.return_date}"
+        )
+
     def setGreenBackgroundEffectCalendar(self):
         """
         This method sets up green background effect to dates that client made a
@@ -338,97 +431,58 @@ class LibAppWindow(QMainWindow):
                 date, defaultDateFormat
                 )
 
-    def borrowBook(self, book):
+    def setupClientDisplayReservationsPage(self):
         """
-        This method is called when client clicks on borrow book button on
-        page where genres and books are displayed. It updates the library
-        database and updates the app output. When book is already borrowed
-        it shows up error message. If client borrows a book it shows message
-        that book has succesfully been borrowed.
+        This method sets up the buttons on client's page where client can
+        browse current reservations.
         """
-        try:
-            self.library.borrow_book(self.currentUser, book)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully borrowed a book.")
-            msg.exec_()
-            self.setupGenreList()
-            self.setupCurrentRentingList()
-            self.setupRentingHistoryList()
-            self.setGreenBackgroundEffectCalendar()
-        except ValueError:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText("The book is already borrowed.")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+        self.ui.cancelReservationButton.clicked.connect(
+            lambda: self.cancelReservation(self.reservationSelected)
+        )
+        self.ui.reservationBorrowButton.clicked.connect(
+            lambda: self.borrowBook(self.reservationSelected)
+        )
 
-    def reserveBook(self, book):
+    def setupReservationList(self):
         """
-        This method is called when client clicks on make a reservation button
-        on page where genres and books are displayed. It updates the library
-        database and updates the app output. If reservation for book has
-        already been made it shows up error message. If client can make a
-        reservation it shows up the message that reservation has succesfully
-        been made.
+        This method sets up client's reservation list. If client has no
+        active reservations it displays information about it. If not client
+        can browse active reservations.
         """
-        try:
-            self.library.make_a_reservation(self.currentUser, book)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully made a reservation.")
-            msg.exec_()
-            self.setupGenreList()
-        except ValueError:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText("You already made a reservation for that book.")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
-        except TypeError:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText("You cannot reserve book which you have rented.")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+        self.ui.listOfReservations.clear()
+        reservations = self.currentUser.current_reservation_list
+        if not reservations:
+            self.ui.ifClientHasNoReservationsStack.setCurrentIndex(1)
+            return None
+        self.ui.ifClientHasNoReservationsStack.setCurrentIndex(0)
+        self.ui.reservationStack.setCurrentIndex(0)
+        for reservation in reservations:
+            item = QListWidgetItem(str(reservation))
+            item.reservation = reservation
+            self.ui.listOfReservations.addItem(item)
+        self.ui.listOfReservations.itemClicked.connect(
+            self.reservationSelection
+            )
 
-    def renewRenting(self, renting):
-        """
-        This method is called when client clicks on renew renting button on
-        page where client's current rentings are displayed. It updates the
-        library database and updates the app output. If there is no renewal
-        left for the renting it shows up error message. If client can
-        succesfully renew renting it shows up message that renting renewal
-        has succesfully been made.
-        """
-        try:
-            self.library.renew_renting(renting)
-            msg = QMessageBox()
-            msg.setWindowTitle("Done!")
-            msg.setText("You succesfully renewed renting.")
-            msg.exec_()
-            self.setupCurrentRentingList()
-        except ValueError:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERROR")
-            msg.setText("This renting has no renewal option left.")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+    def reservationSelection(self, item):
+        self.reservationSelected = item.reservation
+        self.ui.reservationStack.setCurrentIndex(1)
+        self.ui.reservationInfo.setText(
+            f"Title: {item.reservation.title}\n"
+            f"Authors: {item.reservation.authors}\n"
+            f"Genre: {item.reservation.genre}\n"
+            f"Id: {item.reservation.id}\n"
+            f"Status: {item.reservation.status()}"
+        )
 
-    def returnBook(self, renting):
-        """
-        This method is called when client clicks return book button on page
-        where client's current rentings are displayed. It updates the library
-        database and updates the app output. It informs client that book has
-        succesfully been returned to library.
-        """
-        self.library.return_book(self.currentUser, renting)
+    def cancelReservation(self, reservation):
+        self.library.cancel_reservation(self.currentUser, reservation)
         msg = QMessageBox()
         msg.setWindowTitle("Done!")
-        msg.setText("You succesfully returned book to library.")
+        msg.setText("You succesfully cancelled reservation.")
         msg.exec_()
-        self.setupCurrentRentingList()
-        self.setupRentingHistoryList()
+        self.setupReservationList()
+        self.setupGenreList()
 
     def logout(self):
         """
@@ -441,20 +495,6 @@ class LibAppWindow(QMainWindow):
         self.rentingSelected = None
         self.ui.loginLineEdit.clear()
         self.ui.Stack.setCurrentWidget(self.ui.home)
-
-    def setCurrentUser(self):
-        """
-        This method is called when client clicks submit button on the first
-        page It checks if the entered login occur in library member database.
-        If not raises error. If it does it makes self.currentUser variable,
-        which contains Member class instance that is currently using the
-        library.
-        """
-        for member in self.library.list_of_members:
-            if member.login == self.login:
-                self.currentUser = member
-                return None
-        raise ValueError
 
     def setupMainMenuButtons(self):
         """
@@ -469,6 +509,9 @@ class LibAppWindow(QMainWindow):
         self.ui.mainMenuButton2.clicked.connect(
             self.clientMainMenuButtonClicked
             )
+        self.ui.mainMenuButton3.clicked.connect(
+            self.clientMainMenuButtonClicked
+        )
 
     def clientMainMenuButtonClicked(self):
         """

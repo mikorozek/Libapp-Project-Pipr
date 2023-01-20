@@ -1,4 +1,8 @@
 from dataclasses import dataclass, field
+from libapp_exceptions import (
+    DoubleReservationError,
+    RentedBookReservationError
+)
 from renting import Renting
 from book import Book
 from typing import List
@@ -93,18 +97,31 @@ class Member:
         When somebody borrows a book. It adds info about book Renting to
         current renting list and renting history.
         """
+        if renting.book in self.current_reservation_list:
+            self.current_reservation_list.remove(renting.book)
         self.current_renting_list.append(renting)
         self.renting_history.append(renting)
 
     def make_reservation(self, book):
         """
         Method that makes reservation. It adds book to member's current
-        reservation list. It also adds member's login to book reservation list.
+        reservation list. Exceptions are raised if user has already
+        made a reservation for book and if user wants to make a reservation
+        for a book that he borrowed.
+        :raise0: Exception, when user wants to make a reservation on book
+            which he has already booked
+        :raise1: Exception, when user wants to make a reservation on book
+            which he has already borrowed
         """
         if self.login in book.current_reservations:
-            raise ValueError
+            raise DoubleReservationError(
+                "You already made a reservation for that book."
+                )
+        if book in [renting.book for renting in self.current_renting_list]:
+            raise RentedBookReservationError(
+                "You cannot reserve book which you have borrowed."
+                )
         self.current_reservation_list.append(book)
-        book.current_reservations.append(self.login)
 
     def cancel_reservation(self, book):
         """
@@ -112,7 +129,6 @@ class Member:
         book reservation list.
         """
         self.current_reservation_list.remove(book)
-        book.current_reservations.remove(self.login)
 
     def return_renting(self, renting):
         """

@@ -4,6 +4,7 @@ from lists_from_files import (
     get_list_of_rentings_from_json
 )
 from renting import Renting
+from libapp_exceptions import AvailableBookReservationError
 import json
 
 
@@ -104,9 +105,8 @@ class Library:
 
     def borrow_book(self, user, book):
         """
-        Method that checks if book is available. If not Book
-        class method Book.borrow() raises Exception. If book
-        is available the renting class instance is created with
+        Method that checks if book is available. If book is
+        available the renting class instance is created with
         default expire_date and renews params. Member class method
         Member.borrow_a_book() adds renting to current_rentings
         and renting_history member atributes. Then it adds Renting
@@ -116,7 +116,7 @@ class Library:
         "param book: instance of Book class, which somebody
             wants to borrow.
         """
-        book.borrow()
+        book.borrow(user)
         renting = Renting(book)
         user.borrow_a_book(renting)
         self.list_of_rentings.append(renting)
@@ -125,13 +125,23 @@ class Library:
         self.update_members_file('members.json')
 
     def make_a_reservation(self, user, book):
-        if book in user.current_renting_list:
-            raise TypeError
+        """
+        Method that makes reservation in database. If book is available
+        it can be rented so it raises Exception. It updates the database
+        JSON files.
+        :raise: Exception, when book is available and can be borrowed
+        """
+        if book.available:
+            raise AvailableBookReservationError("You can borrow the book.")
         user.make_reservation(book)
+        book.add_reservation(user.login)
         self.update_books_file('books.json')
         self.update_members_file('members.json')
 
     def renew_renting(self, renting):
+        """
+        M
+        """
         renting.renew()
         self.update_members_file('members.json')
         self.update_rentings_file('rentings.json')
@@ -142,6 +152,13 @@ class Library:
         self.update_books_file('books.json')
         self.update_rentings_file('rentings.json')
         self.update_members_file('members.json')
+
+    def cancel_reservation(self, user, reservation):
+        user.cancel_reservation(reservation)
+        reservation.cancel_reservation(user.login)
+        self.update_books_file('books.json')
+        self.update_members_file('members.json')
+        self.update_rentings_file('rentings.json')
 
     def list_of_books_to_json(self):
         """

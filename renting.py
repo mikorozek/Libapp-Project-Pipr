@@ -1,4 +1,5 @@
 from time_functions import todays_date, default_expiration_date, update_date
+from libapp_exceptions import NoRenewalsError
 from book import Book
 from dataclasses import dataclass
 from typing import Union
@@ -64,7 +65,7 @@ class Renting:
         of renews is lesser or equal to 0 it raises error.
         """
         if not self.renews:
-            raise ValueError
+            raise NoRenewalsError("This renting has no renewal option left.")
         self.renews -= 1
         if self.renews == 0:
             self.renews = None

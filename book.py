@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from libapp_exceptions import UnavailableBookError
 from typing import List
 
 
@@ -86,26 +87,30 @@ class Book:
         """
         self.available = not self.available
 
-    def is_booked(self):
+    def add_reservation(self, login):
         """
-        Method that returns information whether book is booked.
-        :return: bool
+        Method that adds login to reservation list.
         """
-        return bool(self.current_reservations)
+        self.current_reservations.append(login)
 
-    def cancel_reservation(self, user_login):
+    def cancel_reservation(self, login):
         """
         Method that cancels reservation. It removes user login from
         reservation list.
         """
-        self.current_reservations.remove(user_login)
+        self.current_reservations.remove(login)
 
-    def borrow(self):
+    def borrow(self, user):
         """
         Method that checks if book is available. If book is not available
-        it raises error. If book is available it simply turns book's status.
+        it raises exception. If book is available it simply changes book's
+        status.
+        :raise: Exception, when book is unavailable and has been borrowed
+            by user or somebody else
         """
+        if user.login in self.current_reservations:
+            self.current_reservations.remove(user.login)
         if self.available:
             self.change_status()
         else:
-            raise ValueError
+            raise UnavailableBookError("The book is already borrowed.")

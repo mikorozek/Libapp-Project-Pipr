@@ -595,6 +595,8 @@ class Ui_MainWindow(object):
         self.gridLayout_8.setObjectName(u"gridLayout_8")
         self.chooseReservationLabel = QLabel(self.page_13)
         self.chooseReservationLabel.setObjectName(u"chooseReservationLabel")
+        self.chooseReservationLabel.setFont(font8)
+        self.chooseReservationLabel.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_8.addWidget(self.chooseReservationLabel, 0, 0, 1, 1)
 
@@ -614,11 +616,22 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_23.addWidget(self.reservationInfo)
 
+        self.reservationBorrowButton = QPushButton(self.page_14)
+        self.reservationBorrowButton.setObjectName(u"reservationBorrowButton")
+        sizePolicy5.setHeightForWidth(self.reservationBorrowButton.sizePolicy().hasHeightForWidth())
+        self.reservationBorrowButton.setSizePolicy(sizePolicy5)
+        self.reservationBorrowButton.setFont(font7)
+
+        self.verticalLayout_23.addWidget(self.reservationBorrowButton)
+
         self.cancelReservationButton = QPushButton(self.page_14)
         self.cancelReservationButton.setObjectName(u"cancelReservationButton")
         sizePolicy5.setHeightForWidth(self.cancelReservationButton.sizePolicy().hasHeightForWidth())
         self.cancelReservationButton.setSizePolicy(sizePolicy5)
-        self.cancelReservationButton.setFont(font11)
+        font14 = QFont()
+        font14.setFamily(u"DejaVu Sans")
+        font14.setPointSize(20)
+        self.cancelReservationButton.setFont(font14)
 
         self.verticalLayout_23.addWidget(self.cancelReservationButton)
 
@@ -667,10 +680,11 @@ class Ui_MainWindow(object):
         self.genreStack.setCurrentIndex(0)
         self.bookStack.setCurrentIndex(1)
         self.ifClientHasRentingStack.setCurrentIndex(0)
-        self.curRentingStack.setCurrentIndex(1)
+        self.curRentingStack.setCurrentIndex(0)
         self.calendarStack.setCurrentIndex(1)
         self.rentingHistoryStack.setCurrentIndex(1)
-        self.ifClientHasNoReservationsStack.setCurrentIndex(1)
+        self.ifClientHasNoReservationsStack.setCurrentIndex(0)
+        self.reservationStack.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -709,8 +723,9 @@ class Ui_MainWindow(object):
         self.rentingHistoryChooseRenting.setText(QCoreApplication.translate("MainWindow", u"Choose renting from list for info", None))
         self.rentingHistoryRentingInfo.setText("")
         self.mainMenuButton3.setText(QCoreApplication.translate("MainWindow", u"Main Menu", None))
-        self.chooseReservationLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.chooseReservationLabel.setText(QCoreApplication.translate("MainWindow", u"Choose reservation from list", None))
         self.reservationInfo.setText("")
+        self.reservationBorrowButton.setText(QCoreApplication.translate("MainWindow", u"Borrow book", None))
         self.cancelReservationButton.setText(QCoreApplication.translate("MainWindow", u"Cancel reservation", None))
         self.noCurrentReservationsLabel.setText(QCoreApplication.translate("MainWindow", u"You have no active reservations.", None))
     # retranslateUi
