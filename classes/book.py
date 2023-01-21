@@ -95,9 +95,11 @@ class Book:
         Method that cancels reservation. It removes client login from
         reservation list.
         """
-        self.current_reservations.remove(login)
+        for element in self.current_reservations:
+            if element == login:
+                self.current_reservations.remove(element)
 
-    def borrow(self, user):
+    def borrow(self):
         """
         Method that checks if book is available. If book is not available
         it raises exception. If book is available it simply changes book's
@@ -106,8 +108,6 @@ class Book:
             by user or somebody else
         """
         if self.available:
-            if user.login in self.current_reservations:
-                self.current_reservations.remove(user.login)
             self.change_status()
         else:
             raise UnavailableBookError("The book is already borrowed.")

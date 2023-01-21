@@ -134,7 +134,7 @@ class Library:
         "param book: instance of Book class, which somebody
             wants to borrow.
         """
-        book.borrow(user)
+        book.borrow()
         renting = Renting(book)
         user.borrow_a_book(renting)
         self.list_of_rentings.append(renting)
