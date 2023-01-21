@@ -1,22 +1,19 @@
 from dataclasses import dataclass, field
-from libapp_exceptions import UnavailableBookError
+from classes.libapp_exceptions import UnavailableBookError
 from typing import List
 
 
 @dataclass
 class Book:
     """
-    Class representing physical book object. Class
-    contains attributes that are used to describe the
-    book.
+    Class representing physical book object. Class contains attributes that
+    are used to describe the book.
     :param title: str, title of the book
     :param authors: str, authors of the book
     :param genre: str, genre of the book
     :param id: str, id of the book
     :param available: bool, info if book is available
-    :param current_reservations: List[str], list
-        that contains logins which first login has the
-        biggest reservation priority
+    :param current_reservations: List[str], list that contains logins
     """
     title: str
     authors: str
@@ -42,8 +39,8 @@ class Book:
 
     def export_to_json(self):
         """
-        Creates a dictionary that can be added to JSON file with
-        book information.
+        Creates a dictionary that can be added to JSON file with book
+        information.
         :return: dic
         """
         json_book_data = {
@@ -58,8 +55,8 @@ class Book:
 
     def __str__(self):
         """
-        Method that when you call str(Book) it returns string
-        Title - Authors.
+        Method that when you call str(Book) it returns book info in
+        Title - Authors format.
         :return: str
         """
         return f'{self.title} - {self.authors}'
@@ -76,25 +73,26 @@ class Book:
     def amount_of_reservations(self):
         """
         Method that returns amount of current reservations.
+        :return: str
         """
         return str(len(self.current_reservations))
 
     def change_status(self):
         """
-        Method that changes book status information. If book is available
-        it turns unavailable.
+        Method that changes book status information. If book is available it
+        turns unavailable.
         """
         self.available = not self.available
 
     def add_reservation(self, login):
         """
-        Method that adds login to reservation list.
+        Method that adds client login to reservation list.
         """
         self.current_reservations.append(login)
 
     def cancel_reservation(self, login):
         """
-        Method that cancels reservation. It removes user login from
+        Method that cancels reservation. It removes client login from
         reservation list.
         """
         self.current_reservations.remove(login)

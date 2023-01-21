@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
-from libapp_exceptions import (
+from misc_functions.time_functions import updated_date_format_for_renting
+from classes.libapp_exceptions import (
     DoubleReservationError,
     RentedBookReservationError
 )
-from renting import Renting
-from book import Book
+from classes.renting import Renting
+from classes.book import Book
 from typing import List
 
 
@@ -35,7 +36,7 @@ class Member:
     @classmethod
     def import_from_json(cls, member_data):
         """
-        Creates a Renting class instance from JSON data.
+        Creates a Member class instance from JSON data.
             :param member_data: JSON data that contains information
                 about renting
             :return: Member class instance
@@ -68,8 +69,8 @@ class Member:
 
     def export_to_json(self):
         """
-        Creates a dictionary that can be added to JSON file with
-        member information.
+        Creates a dictionary that can be added to JSON file with member
+        information.
         :return: dic
         """
         json_member_data = {
@@ -94,8 +95,8 @@ class Member:
 
     def borrow_a_book(self, renting):
         """
-        When somebody borrows a book. It adds info about book Renting to
-        current renting list and renting history.
+        Method adds info about book Renting to current renting list and
+        renting history.
         """
         if renting.book in self.current_reservation_list:
             self.current_reservation_list.remove(renting.book)
@@ -139,16 +140,47 @@ class Member:
         self.current_renting_list.remove(renting)
 
     def renting_history_date_rentings(self, date):
+        """
+        Method that returns list of rentings in history with specific date.
+        :param date: str, date in day/month/year format
+        :return: List[Renting]
+        """
         return [
             renting for renting in self.renting_history
             if renting.beginning_date == date
         ]
 
     def active_rentings_amount(self):
+        """
+        Method that returns amount of active rentings.
+        :return: int
+        """
         return len(self.current_renting_list)
 
     def active_reservations_amount(self):
+        """
+        Method that returns amount of active reservations.
+        :return: int
+        """
         return len(self.current_reservation_list)
 
+    def month_amount_of_rentings_in_history(self, month):
+        """
+        Method that returns amount of rentings in history of specified month.
+        :param month: str, month in month/year format
+        :return: int
+        """
+        amount = 0
+        for renting in self.renting_history:
+            if updated_date_format_for_renting(
+                renting.beginning_date
+            ) == month:
+                amount += 1
+        return amount
+
     def __str__(self):
+        """
+        Method that returns info about user in Name Surname - Login format.
+        :return: str
+        """
         return f"{self.name} {self.surname} - {self.login}"

@@ -10,8 +10,8 @@ from PySide2.QtGui import (
     QColor
 )
 from PySide2.QtCore import QDate
-from ui_libapp import Ui_MainWindow
-from libapp_exceptions import (
+from ui.ui_libapp import Ui_MainWindow
+from classes.libapp_exceptions import (
     AvailableBookReservationError,
     InvalidLoginError,
     UnavailableBookError,
@@ -20,11 +20,16 @@ from libapp_exceptions import (
     NoRenewalsError,
     InvalidDateSelectionError,
     EmptyLineError,
-    UncheckedMemberStatusError
+    UncheckedMemberStatusError,
+    TakenLoginError
 )
-from book import Book
-from member import Member
-from library import Library
+from misc_functions.plot_functions import (
+    generate_plot_for_member,
+    generate_plot_for_library
+)
+from classes.book import Book
+from classes.member import Member
+from classes.library import Library
 import sys
 
 
@@ -56,6 +61,7 @@ class LibAppWindow(QMainWindow):
         self.setupLibrarianAddMemberPage()
         self.setupLibrarianAddMemberCheckBoxes()
         self.setupLibrarianDisplayMembersPage()
+        self.setupButtonsAddMemberBookPages()
 
     def setupHomePage(self):
         """
@@ -519,7 +525,7 @@ class LibAppWindow(QMainWindow):
             self.librarianDisplayMembersPage
         )
         self.ui.librarianDisplayRentingsInfoButton.clicked.connect(
-            self.librarianDisplayInfoPage
+            lambda: generate_plot_for_library(self.library)
         )
         self.ui.librarianLogoutButton.clicked.connect(
             self.librarianLogout
@@ -538,7 +544,6 @@ class LibAppWindow(QMainWindow):
         self.ui.addBookAuthorsLineEdit.clear()
         self.ui.addBookGenreLineEdit.clear()
         self.ui.addBookIdLineEdit.clear()
-        self.ui.addBookButton.clicked.connect(self.addBookToLibrary)
 
     def addBookToLibrary(self):
         """
@@ -575,11 +580,20 @@ class LibAppWindow(QMainWindow):
             self.errorMessageBox(str(e))
 
     def setupLibrarianRemoveBookPage(self):
+        """
+        This method sets up button on book removal page. If user clicks on
+        button the book currently chosen is removed.
+        """
         self.ui.removeBookButton.clicked.connect(
             lambda: self.removeBook(self.bookSelected)
         )
 
     def setupRemoveBookList(self):
+        """
+        This method sets up list of books that appear after clicking remove
+        book from library button while in librarian mode. If there is no
+        any book in the database it shows info about it.
+        """
         self.ui.removalListOfBooks.clear()
         books = self.library.list_of_books
         if not books:
@@ -596,6 +610,11 @@ class LibAppWindow(QMainWindow):
         )
 
     def removalBookSelection(self, item):
+        """
+        This method is called when user clicks on item on list which appears
+        after clicking remove book from library button. It shows info about
+        chosen book item.
+        """
         self.bookSelected = item.book
         self.ui.bookRemovalStack.setCurrentIndex(1)
         self.ui.bookRemoveInfo.setText(
@@ -608,11 +627,24 @@ class LibAppWindow(QMainWindow):
         )
 
     def removeBook(self, book):
+        """
+        This method is called when user clicks on book removal button.
+        It removes book from library. It also updates the library
+        database and app.
+        """
         self.library.remove_book_from_library(book)
         self.doneMessageBox("You succesfully removed book from library.")
         self.setupRemoveBookList()
 
+    def setupButtonsAddMemberBookPages(self):
+        self.ui.addMemberButton.clicked.connect(self.addMemberToLibrary)
+        self.ui.addBookButton.clicked.connect(self.addBookToLibrary)
+
     def setupLibrarianAddMemberPage(self):
+        """
+        This method sets up page in librarian mode that appears after clicking
+        add member to library button.
+        """
         self.addMemberName = None
         self.addMemberSurname = None
         self.addMemberLogin = None
@@ -620,9 +652,10 @@ class LibAppWindow(QMainWindow):
         self.ui.addMemberNameLineEdit.clear()
         self.ui.addMemberSurnameLineEdit.clear()
         self.ui.addMemberLoginLineEdit.clear()
-        self.ui.addMemberClientCheckBox.setChecked(False)
-        self.ui.addMemberLibrarianCheckBox.setChecked(False)
-        self.ui.addMemberButton.clicked.connect(self.addMemberToLibrary)
+        if self.ui.addMemberClientCheckBox.isChecked():
+            self.ui.addMemberClientCheckBox.setChecked(False)
+        if self.ui.addMemberLibrarianCheckBox.isChecked():
+            self.ui.addMemberLibrarianCheckBox.setChecked(False)
 
     def setupLibrarianAddMemberCheckBoxes(self):
         self.ui.addMemberClientCheckBox.toggled.connect(
@@ -674,13 +707,14 @@ class LibAppWindow(QMainWindow):
             self.setupMembersList()
         except (
             EmptyLineError,
-            UncheckedMemberStatusError
+            UncheckedMemberStatusError,
+            TakenLoginError
         ) as e:
             self.errorMessageBox(str(e))
 
     def setupLibrarianDisplayMembersPage(self):
         self.ui.displayMemberStatisticsButton.clicked.connect(
-            lambda: self.displayMemberStatistics(self.memberSelected)
+            lambda: generate_plot_for_member(self.memberSelected)
         )
         self.ui.removeMemberButton.clicked.connect(
             lambda: self.removeMember(self.memberSelected)
@@ -716,13 +750,11 @@ class LibAppWindow(QMainWindow):
             f"Active reservations: {item.member.active_reservations_amount()}"
         )
 
-    def displayMemberStatistics(self, member):
-        pass
-
     def removeMember(self, member):
         self.library.remove_member_from_library(member)
         self.doneMessageBox("You succesfully removed member from library.")
         self.setupMembersList()
+        self.setupRemoveBookList()
 
     def librarianLogout(self):
         self.currentUser = None
@@ -741,9 +773,6 @@ class LibAppWindow(QMainWindow):
 
     def librarianDisplayMembersPage(self):
         self.ui.Stack.setCurrentWidget(self.ui.librarian_display_members_page)
-
-    def librarianDisplayInfoPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_info_page)
 
     def setupMainMenuButtons(self):
         """

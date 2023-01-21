@@ -1,6 +1,10 @@
-from time_functions import todays_date, default_expiration_date, update_date
-from libapp_exceptions import NoRenewalsError
-from book import Book
+from misc_functions.time_functions import (
+    todays_date,
+    default_expiration_date,
+    update_date
+)
+from classes.libapp_exceptions import NoRenewalsError
+from classes.book import Book
 from dataclasses import dataclass
 from typing import Union
 
