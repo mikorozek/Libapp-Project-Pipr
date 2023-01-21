@@ -94,9 +94,9 @@ class EmptyLineError(Exception):
         super().__init__(message)
 
 
-class UncheckedMemberStatusError(Exception):
+class WrongStatusError(Exception):
     """
-    An exception class for indicationg attempt of adding member with not chosen
+    An exception class for indicationg attempt of adding member with wrong
     status. This exception should be raised when user wants to add member to
     library without choosing his status(Clien/Librarian).
     :param message: str, appropriate message that should be displayed to the

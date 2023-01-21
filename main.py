@@ -20,7 +20,7 @@ from classes.libapp_exceptions import (
     NoRenewalsError,
     InvalidDateSelectionError,
     EmptyLineError,
-    UncheckedMemberStatusError,
+    WrongStatusError,
     TakenLoginError
 )
 from misc_functions.plot_functions import (
@@ -59,7 +59,6 @@ class LibAppWindow(QMainWindow):
         self.setupLibrarianAddBookPage()
         self.setupLibrarianRemoveBookPage()
         self.setupLibrarianAddMemberPage()
-        self.setupLibrarianAddMemberCheckBoxes()
         self.setupLibrarianDisplayMembersPage()
         self.setupButtonsAddMemberBookPages()
 
@@ -116,19 +115,27 @@ class LibAppWindow(QMainWindow):
         """
         self.ui.clientLogoutButton.clicked.connect(
             self.clientLogout
-        )
+            )
         self.ui.clientDisplayBooksButton.clicked.connect(
-            self.clientDisplayBooksPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.client_display_books_page
+                )
+            )
         self.ui.clientDisplayHistoryButton.clicked.connect(
-            self.clientDisplayHistoryPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.client_display_history_page
+                )
+            )
         self.ui.clientDisplayRentingsButton.clicked.connect(
-            self.clientDisplayRentingsPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.client_display_rentings_page
+                )
+            )
         self.ui.clientDisplayReservationsButton.clicked.connect(
-            self.clientDisplayReservationsPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.client_display_reservations_page
+                )
+            )
 
     def setupClientDisplayBooksPage(self):
         """
@@ -335,7 +342,9 @@ class LibAppWindow(QMainWindow):
         """
         try:
             self.dateSelected = str(
-                self.ui.rentingHistoryCalendar.selectedDate().toString("dd/MM/yyyy")
+                self.ui.rentingHistoryCalendar.selectedDate().toString(
+                    "dd/MM/yyyy"
+                    )
                 )
             if self.dateSelected not in [
                 renting.beginning_date
@@ -447,6 +456,10 @@ class LibAppWindow(QMainWindow):
             )
 
     def reservationSelection(self, item):
+        """
+        This method is called when client clicks on item on reservation list.
+        It displays info about client reservation.
+        """
         self.reservationSelected = item.reservation
         self.ui.reservationStack.setCurrentIndex(1)
         self.ui.reservationInfo.setText(
@@ -460,7 +473,8 @@ class LibAppWindow(QMainWindow):
     def cancelReservation(self, reservation):
         """
         This method is called when client clicks on cancel reservation button
-        on client's reservations page. It cancels client's selected reservation.
+        on client's reservations page. It cancels client's selected
+        reservation.
         """
         self.library.cancel_reservation(self.currentUser, reservation)
         self.doneMessageBox("You succesfully cancelled reservation.")
@@ -480,56 +494,36 @@ class LibAppWindow(QMainWindow):
         self.ui.loginLineEdit.clear()
         self.ui.Stack.setCurrentWidget(self.ui.home)
 
-    def clientDisplayBooksPage(self):
-        """
-        This method is called when client clicks on display books button on
-        client's home page.
-        """
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_books_page)
-
-    def clientDisplayRentingsPage(self):
-        """
-        This method is called when client clicks on display current rentings
-        button on client's home page.
-        """
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_rentings_page)
-
-    def clientDisplayHistoryPage(self):
-        """
-        This method is called when client clicks on display history of rentings
-        button on client's home page.
-        """
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_history_page)
-
-    def clientDisplayReservationsPage(self):
-        """
-        This method is called when client clicks on display current
-        reservations button on client's home page.
-        """
-        self.ui.Stack.setCurrentWidget(self.ui.client_display_reservations_page)
-
     def setupLibrarianHomePage(self):
         """
         Method that setups all buttons on librarian's home page.
         """
         self.ui.librarianAddBookButton.clicked.connect(
-            self.librarianDisplayAddBookPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.librarian_add_book_page
+                )
+            )
         self.ui.librarianRemoveBookButton.clicked.connect(
-            self.librarianDisplayRemoveBookPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.librarian_remove_book_page
+                )
+            )
         self.ui.librarianAddMemberButton.clicked.connect(
-            self.librarianDisplayAddMemberPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.librarian_add_member_page
+                )
+            )
         self.ui.librarianDisplayMembersButton.clicked.connect(
-            self.librarianDisplayMembersPage
-        )
+            lambda: self.ui.Stack.setCurrentWidget(
+                self.ui.librarian_display_members_page
+                )
+            )
         self.ui.librarianDisplayRentingsInfoButton.clicked.connect(
             lambda: generate_plot_for_library(self.library)
-        )
+            )
         self.ui.librarianLogoutButton.clicked.connect(
             self.librarianLogout
-        )
+            )
 
     def setupLibrarianAddBookPage(self):
         """
@@ -637,6 +631,10 @@ class LibAppWindow(QMainWindow):
         self.setupRemoveBookList()
 
     def setupButtonsAddMemberBookPages(self):
+        """
+        Method that sets up buttons on page where librarian can add member and
+        on page where librarian can add book to library.
+        """
         self.ui.addMemberButton.clicked.connect(self.addMemberToLibrary)
         self.ui.addBookButton.clicked.connect(self.addBookToLibrary)
 
@@ -652,48 +650,29 @@ class LibAppWindow(QMainWindow):
         self.ui.addMemberNameLineEdit.clear()
         self.ui.addMemberSurnameLineEdit.clear()
         self.ui.addMemberLoginLineEdit.clear()
-        if self.ui.addMemberClientCheckBox.isChecked():
-            self.ui.addMemberClientCheckBox.setChecked(False)
-        if self.ui.addMemberLibrarianCheckBox.isChecked():
-            self.ui.addMemberLibrarianCheckBox.setChecked(False)
-
-    def setupLibrarianAddMemberCheckBoxes(self):
-        self.ui.addMemberClientCheckBox.toggled.connect(
-            self.clientCheckBoxToggled
-            )
-        self.ui.addMemberLibrarianCheckBox.toggled.connect(
-            self.librarianCheckBoxToggled
-            )
-
-    def clientCheckBoxToggled(self):
-        self.ui.addMemberLibrarianCheckBox.setChecked(
-                not self.ui.addMemberClientCheckBox.isChecked()
-            )
-        self.addMemberStatus = "Client"
-
-    def librarianCheckBoxToggled(self):
-        self.ui.addMemberClientCheckBox.setChecked(
-                not self.ui.addMemberLibrarianCheckBox.isChecked()
-            )
-        self.addMemberStatus = "Librarian"
+        self.ui.addMemberStatusLineEdit.clear()
 
     def addMemberToLibrary(self):
+        """
+        This method allows librarian to add member to library. It is called
+        when librarian clicks on add member to library button. It raises
+        exception if any text line is not fulfilled. If every line is filled
+        it creates Member class instance and adds it to library.
+        """
         try:
             self.addMemberName = self.ui.addMemberNameLineEdit.text()
             self.addMemberSurname = self.ui.addMemberSurnameLineEdit.text()
             self.addMemberLogin = self.ui.addMemberLoginLineEdit.text()
+            self.addMemberStatus = self.ui.addMemberStatusLineEdit.text()
             if not self.addMemberName:
                 raise EmptyLineError("Member name field is empty!")
             if not self.addMemberSurname:
                 raise EmptyLineError("Member surname field is empty!")
             if not self.addMemberLogin:
                 raise EmptyLineError("Member login field is empty!")
-            if not any([
-                self.ui.addMemberClientCheckBox.isChecked(),
-                self.ui.addMemberLibrarianCheckBox.isChecked()
-            ]):
-                raise UncheckedMemberStatusError(
-                    "Member status is not chosen!"
+            if self.addMemberStatus not in ["Client", "Librarian"]:
+                raise WrongStatusError(
+                    "Invalid member status!"
                     )
             member = Member(
                 self.addMemberName,
@@ -707,12 +686,15 @@ class LibAppWindow(QMainWindow):
             self.setupMembersList()
         except (
             EmptyLineError,
-            UncheckedMemberStatusError,
+            WrongStatusError,
             TakenLoginError
         ) as e:
             self.errorMessageBox(str(e))
 
     def setupLibrarianDisplayMembersPage(self):
+        """
+        Method that sets up librarian page where he can browse clients.
+        """
         self.ui.displayMemberStatisticsButton.clicked.connect(
             lambda: generate_plot_for_member(self.memberSelected)
         )
@@ -721,6 +703,11 @@ class LibAppWindow(QMainWindow):
         )
 
     def setupMembersList(self):
+        """
+        Method that sets up list of clients active in library. If there is no
+        client in library it displays info about it. Otherwise it takes every
+        client in library and adds him to the list.
+        """
         self.ui.listOfMembers.clear()
         members = [
             member for member in self.library.list_of_members
@@ -740,6 +727,10 @@ class LibAppWindow(QMainWindow):
         )
 
     def memberSelection(self, item):
+        """
+        Method that is called when librarian clicks on item on member list.
+        It then displays info about client of library.
+        """
         self.memberSelected = item.member
         self.ui.chooseMemberStack.setCurrentIndex(1)
         self.ui.memberInfo.setText(
@@ -751,28 +742,26 @@ class LibAppWindow(QMainWindow):
         )
 
     def removeMember(self, member):
+        """
+        Method that is called when librarian clicks on client removal button.
+        It then removes client from library and updates displayed from library
+        database.
+        """
         self.library.remove_member_from_library(member)
         self.doneMessageBox("You succesfully removed member from library.")
         self.setupMembersList()
         self.setupRemoveBookList()
 
     def librarianLogout(self):
+        """
+        Method that is called when librarian clicks on logout button. It
+        displays very first page in the app.
+        """
         self.currentUser = None
         self.bookSelected = None
+        self.memberSelected = None
         self.ui.loginLineEdit.clear()
         self.ui.Stack.setCurrentWidget(self.ui.home)
-
-    def librarianDisplayAddBookPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_book_page)
-
-    def librarianDisplayRemoveBookPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_remove_book_page)
-
-    def librarianDisplayAddMemberPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_add_member_page)
-
-    def librarianDisplayMembersPage(self):
-        self.ui.Stack.setCurrentWidget(self.ui.librarian_display_members_page)
 
     def setupMainMenuButtons(self):
         """
@@ -809,11 +798,22 @@ class LibAppWindow(QMainWindow):
         """
         self.ui.Stack.setCurrentWidget(self.ui.client_home_page)
         self.ui.calendarStack.setCurrentIndex(0)
+        self.ui.genreStack.setCurrentIndex(1)
+        self.ui.curRentingStack.setCurrentIndex(0)
+        self.ui.reservationStack.setCurrentIndex(0)
 
     def librarianMainMenuButtonClicked(self):
+        """
+        This method is called when librarian clicks on any main menu button.
+        """
         self.ui.Stack.setCurrentWidget(self.ui.librarian_home_page)
+        self.ui.chooseMemberStack.setCurrentIndex(0)
+        self.ui.bookRemovalStack.setCurrentIndex(0)
 
     def errorMessageBox(self, e):
+        """
+        This method is called to signalize error.
+        """
         msg = QMessageBox()
         msg.setWindowTitle("ERROR")
         msg.setText(e)
@@ -821,6 +821,9 @@ class LibAppWindow(QMainWindow):
         msg.exec_()
 
     def doneMessageBox(self, content):
+        """
+        This method is called to signalize that something has been done.
+        """
         msg = QMessageBox()
         msg.setWindowTitle("Done!")
         msg.setText(content)

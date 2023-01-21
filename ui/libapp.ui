@@ -29,7 +29,7 @@
     <item>
      <widget class="QStackedWidget" name="Stack">
       <property name="currentIndex">
-       <number>10</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="home">
        <layout class="QGridLayout" name="gridLayout_5">
@@ -1725,37 +1725,17 @@
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QCheckBox" name="addMemberClientCheckBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Client</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="addMemberLibrarianCheckBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Librarian</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QLineEdit" name="addMemberStatusLineEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="placeholderText">
+             <string>Enter 'Client' or 'Librarian'...</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="addMemberButton">
@@ -1914,7 +1894,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="librarian_display_info_page"/>
      </widget>
     </item>
    </layout>

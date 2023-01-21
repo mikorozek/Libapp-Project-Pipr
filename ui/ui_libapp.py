@@ -1039,25 +1039,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_32.addWidget(self.addMembersStatusLabel)
 
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.addMemberClientCheckBox = QCheckBox(self.librarian_add_member_page)
-        self.addMemberClientCheckBox.setObjectName(u"addMemberClientCheckBox")
-        sizePolicy3.setHeightForWidth(self.addMemberClientCheckBox.sizePolicy().hasHeightForWidth())
-        self.addMemberClientCheckBox.setSizePolicy(sizePolicy3)
-        self.addMemberClientCheckBox.setChecked(False)
+        self.addMemberStatusLineEdit = QLineEdit(self.librarian_add_member_page)
+        self.addMemberStatusLineEdit.setObjectName(u"addMemberStatusLineEdit")
+        sizePolicy8.setHeightForWidth(self.addMemberStatusLineEdit.sizePolicy().hasHeightForWidth())
+        self.addMemberStatusLineEdit.setSizePolicy(sizePolicy8)
 
-        self.horizontalLayout_4.addWidget(self.addMemberClientCheckBox)
-
-        self.addMemberLibrarianCheckBox = QCheckBox(self.librarian_add_member_page)
-        self.addMemberLibrarianCheckBox.setObjectName(u"addMemberLibrarianCheckBox")
-        sizePolicy3.setHeightForWidth(self.addMemberLibrarianCheckBox.sizePolicy().hasHeightForWidth())
-        self.addMemberLibrarianCheckBox.setSizePolicy(sizePolicy3)
-
-        self.horizontalLayout_4.addWidget(self.addMemberLibrarianCheckBox)
-
-
-        self.verticalLayout_32.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_32.addWidget(self.addMemberStatusLineEdit)
 
         self.addMemberButton = QPushButton(self.librarian_add_member_page)
         self.addMemberButton.setObjectName(u"addMemberButton")
@@ -1164,9 +1151,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_35.addLayout(self.verticalLayout_34)
 
         self.Stack.addWidget(self.librarian_display_members_page)
-        self.librarian_display_info_page = QWidget()
-        self.librarian_display_info_page.setObjectName(u"librarian_display_info_page")
-        self.Stack.addWidget(self.librarian_display_info_page)
 
         self.horizontalLayout.addWidget(self.Stack)
 
@@ -1177,7 +1161,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.Stack.setCurrentIndex(10)
+        self.Stack.setCurrentIndex(9)
         self.genreStack.setCurrentIndex(0)
         self.bookStack.setCurrentIndex(0)
         self.ifClientHasRentingStack.setCurrentIndex(0)
@@ -1264,8 +1248,7 @@ class Ui_MainWindow(object):
         self.addMembersLoginLabel.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.addMemberLoginLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the login of member...", None))
         self.addMembersStatusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))
-        self.addMemberClientCheckBox.setText(QCoreApplication.translate("MainWindow", u"Client", None))
-        self.addMemberLibrarianCheckBox.setText(QCoreApplication.translate("MainWindow", u"Librarian", None))
+        self.addMemberStatusLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter 'Client' or 'Librarian'...", None))
         self.addMemberButton.setText(QCoreApplication.translate("MainWindow", u"Add member to library", None))
         self.mainMenuButton7.setText(QCoreApplication.translate("MainWindow", u"Main Menu", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"There are currently no clients signed to library", None))

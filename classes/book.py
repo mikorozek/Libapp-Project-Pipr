@@ -105,9 +105,9 @@ class Book:
         :raise: Exception, when book is unavailable and has been borrowed
             by user or somebody else
         """
-        if user.login in self.current_reservations:
-            self.current_reservations.remove(user.login)
         if self.available:
+            if user.login in self.current_reservations:
+                self.current_reservations.remove(user.login)
             self.change_status()
         else:
             raise UnavailableBookError("The book is already borrowed.")

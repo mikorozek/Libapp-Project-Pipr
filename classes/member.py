@@ -114,7 +114,7 @@ class Member:
         :raise1: Exception, when user wants to make a reservation on book
             which he has already borrowed
         """
-        if self.login in book.current_reservations:
+        if book in self.current_reservation_list:
             raise DoubleReservationError(
                 "You already made a reservation for that book."
                 )
