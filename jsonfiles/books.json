@@ -1,1 +1,116 @@
-{"Books": [{"Title": "Lord of the rings: The return of the king", "Authors": "J. R. R. Tolkien", "Genre": "Fantasy", "Id": "00001", "Available": true, "Current reservations": []}, {"Title": "Johnny Mnemonic", "Authors": "William Gibson", "Genre": "Science fiction", "Id": "00002", "Available": true, "Current reservations": []}, {"Title": "Metro 2033", "Authors": "Dmitrij G\u0142uchowski", "Genre": "Post Apo", "Id": "00003", "Available": false, "Current reservations": []}, {"Title": "Metro 2034", "Authors": "Dmitrij G\u0142uchowski", "Genre": "Post Apo", "Id": "00004", "Available": false, "Current reservations": ["mikej9client2"]}, {"Title": "Krzyzacy", "Authors": "Henryk Sienkiewicz", "Genre": "History", "Id": "00005", "Available": true, "Current reservations": []}, {"Title": "Pan Wolodyjowski", "Authors": "Henryk Sienkiewicz", "Genre": "History", "Id": "00006", "Available": true, "Current reservations": []}]}
+{
+    "Books": [
+        {
+            "Title": "Lord of the rings: The return of the king",
+            "Authors": "J. R. R. Tolkien",
+            "Genre": "Fantasy",
+            "Id": "00001",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Johnny Mnemonic",
+            "Authors": "William Gibson",
+            "Genre": "Science fiction",
+            "Id": "00002",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Metro 2033",
+            "Authors": "Dmitrij G\u0142uchowski",
+            "Genre": "Post Apo",
+            "Id": "00003",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Metro 2034",
+            "Authors": "Dmitrij G\u0142uchowski",
+            "Genre": "Post Apo",
+            "Id": "00004",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Krzyzacy",
+            "Authors": "Henryk Sienkiewicz",
+            "Genre": "History",
+            "Id": "00005",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Pan Wolodyjowski",
+            "Authors": "Henryk Sienkiewicz",
+            "Genre": "History",
+            "Id": "00006",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Lalka",
+            "Authors": "Bolesław Prus",
+            "Genre": "Novel",
+            "Id": "00010",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Trial",
+            "Authors": "Franz Kavka",
+            "Genre": "Novel",
+            "Id": "00102",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "The adventures of Tom Sawyer",
+            "Authors": "Mark Twain",
+            "Genre": "Novel",
+            "Id": "00113",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Old man and sea",
+            "Authors": "Ernest Hemingway",
+            "Genre": "Novel",
+            "Id": "00070",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Pan Wolodyjowski",
+            "Authors": "Henryk Sienkiewicz",
+            "Genre": "History",
+            "Id": "01093",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Idoru",
+            "Authors": "William Gibson",
+            "Genre": "Science fiction",
+            "Id": "07699",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "Brave new world",
+            "Authors": "Aldous Huxley",
+            "Genre": "Science fiction",
+            "Id": "00306",
+            "Available": true,
+            "Current reservations": []
+        },
+        {
+            "Title": "1984",
+            "Authors": "George Orwell",
+            "Genre": "Distopia",
+            "Id": "20006",
+            "Available": true,
+            "Current reservations": []
+        }
+    ]
+}
