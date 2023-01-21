@@ -1,1 +1,40 @@
-{"Members": [{"Name": "Wojciech", "Surname": "Masarczyk", "Login": "wmasarczyklibrarian", "Status": "Librarian", "Current rentings": [], "Renting history": [], "Current reservations": []}, {"Name": "Mikolaj", "Surname": "Rozek", "Login": "mikej9lib", "Status": "Librarian", "Current rentings": [], "Renting history": [], "Current reservations": []}, {"Name": "Wojciech", "Surname": "Masarczyk", "Login": "wmasarczykclient", "Status": "Client", "Current rentings": [], "Renting history": [], "Current reservations": []}, {"Name": "Maks", "Surname": "Bilski", "Login": "maksde25", "Status": "Client", "Current rentings": [], "Renting history": [], "Current reservations": []}, {"Name": "maksde25", "Surname": "mkdadamk", "Login": "dmaskldmask", "Status": "Client", "Current rentings": [], "Renting history": [], "Current reservations": []}]}
+{
+    "Members": [
+        {
+            "Name": "Wojciech",
+            "Surname": "Masarczyk",
+            "Login": "wmasarczyklibrarian",
+            "Status": "Librarian",
+            "Current rentings": [],
+            "Renting history": [],
+            "Current reservations": []
+        },
+        {
+            "Name": "Mikolaj",
+            "Surname": "Rozek",
+            "Login": "mikej9lib",
+            "Status": "Librarian",
+            "Current rentings": [],
+            "Renting history": [],
+            "Current reservations": []
+        },
+        {
+            "Name": "Wojciech",
+            "Surname": "Masarczyk",
+            "Login": "wmasarczykclient",
+            "Status": "Client",
+            "Current rentings": [],
+            "Renting history": [],
+            "Current reservations": []
+        },
+        {
+            "Name": "maksde25",
+            "Surname": "mkdadamk",
+            "Login": "dmaskldmask",
+            "Status": "Client",
+            "Current rentings": [],
+            "Renting history": [],
+            "Current reservations": []
+        }
+    ]
+}

@@ -99,10 +99,10 @@ class Library:
             renting.return_renting()
         for reservation in member.current_reservation_list:
             reservation.cancel_reservation(member.login)
-        self.list_of_members.remove(member)
-        self.update_members_file()
         self.update_books_file()
         self.update_rentings_file()
+        self.list_of_members.remove(member)
+        self.update_members_file()
 
     def genres(self):
         """
