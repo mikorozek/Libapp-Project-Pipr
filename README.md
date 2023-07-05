@@ -24,5 +24,29 @@ git clone https://github.com/your-username/Library-App.git
 2. Install the required dependencies. You can use the following command to install the dependencies using pip:
 ```
 pip install pyside2
+```
+```
 pip install matplotlib
 ```
+
+3. Launch the application by running the main script:
+```
+python3 main.py
+```
+
+## Usage
+
+Upon launching the application, users are prompted to enter their login credentials. Two pre-configured accounts are available:
+- **Client Mode:** Username: `testclient`
+- **Librarian Mode:** Username: `testlib`
+
+After logging in, clients can browse books by genre, borrow books, and view their current rentals. Librarians have additional capabilities, such as managing books and member accounts.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). Feel free to use and modify the code according to your needs.
+
+## Contact
+
+For any inquiries or feedback, please contact [mikolajrozek0@gmail.com](mailto:mikolajrozek0@gmail.com).
+
