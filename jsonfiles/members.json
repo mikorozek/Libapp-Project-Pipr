@@ -1,9 +1,9 @@
 {
     "Members": [
         {
-            "Name": "Wojciech",
-            "Surname": "Masarczyk",
-            "Login": "wmasarczyklibrarian",
+            "Name": "Test",
+            "Surname": "Account",
+            "Login": "testlib",
             "Status": "Librarian",
             "Current rentings": [],
             "Renting history": [],
@@ -19,9 +19,9 @@
             "Current reservations": []
         },
         {
-            "Name": "Wojciech",
-            "Surname": "Masarczyk",
-            "Login": "wmasarczykclient",
+            "Name": "Test",
+            "Surname": "Account",
+            "Login": "testclient",
             "Status": "Client",
             "Current rentings": [],
             "Renting history": [],
