@@ -18,5 +18,11 @@ To run the library management application on your local machine, follow these st
 
 1. Clone this repository to your local machine using the following command:
 ```
-git clone https://github.com/your-username/library-management-app.git
+git clone https://github.com/your-username/Library-App.git
+```
+
+2. Install the required dependencies. You can use the following command to install the dependencies using pip:
+```
+pip install pyside2
+pip install matplotlib
 ```
