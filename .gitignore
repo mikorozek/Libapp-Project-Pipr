@@ -1,0 +1,43 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment and virtualenv files
+.env
+.env.*
+venv/
+env/
+ENV/
+
+# Logs and output files
+logs/
+*.log
+*.bak
+*.swp
+
+# Dependency directories
+lib/
+libs/
+dist/
+build/
+bin/
+eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+
+# IDE-specific files and directories
+.idea/
+.vscode/
+*.pydevproject
+*.pydevworkspace
+
+# Miscellaneous
+.DS_Store
+*.bak
+*.tmp
+*.swp
